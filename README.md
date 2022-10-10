@@ -1,5 +1,5 @@
 # Clothing Webapp Admin Side Front End
-### Our member 
+### Our members 
  - Mai Thanh Nha
  - Pham Phi Anh
  - Nguyen Huu Dang
