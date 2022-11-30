@@ -1,32 +1,34 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { CssBaseline } from '@mui/material';
 import Categories from './Categories/Categories';
 import Products from './Products/Products';
 import Users from './Users/Users';
 import Orders from './Orders/Orders';
-import Header from './Header/Header';
-import Sidebar from './Sidebar/Sidebar';
-import useStyles from './styles'
 import Dashboard from './Dashboard/Dashboard';
+import HeaderAndSidebar from './HeaderAndSidebar';
+import NotHeaderAndSiderbar from './NotHeaderAndSiderbar';
+import Auth from './Auth/Auth';
+import { useSelector } from 'react-redux';
 
 const App = () => {
-    const classes = useStyles();
+    const { isAuthenticated } = useSelector((state) => state.auth);;
 
     return (
         <div>
             <CssBaseline />
-            <Header />
-            <Sidebar />
-            <main className={classes.main}>
-                <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/products" element={<Products />} />
-                    <Route path="/orders" element={<Orders />} />
-                    <Route path="/users" element={<Users />} />
-                    <Route path="/categories" element={<Categories />} />
-                </Routes>
-            </main>
+            <Routes>
+                <Route element={<HeaderAndSidebar />}>
+                    <Route path="/" element={isAuthenticated ? <Dashboard /> : <Navigate replace to="/login" />} />
+                    <Route path="/products" element={isAuthenticated ? <Products /> : <Navigate replace to="/login" />} />
+                    <Route path="/orders" element={isAuthenticated ? <Orders /> : <Navigate replace to="/login" />} />
+                    <Route path="/users" element={isAuthenticated ? <Users /> : <Navigate replace to="/login" />} />
+                    <Route path="/categories" element={isAuthenticated ? <Categories /> : <Navigate replace to="/login" />} />
+                </Route>
+                <Route element={<NotHeaderAndSiderbar />}>
+                    <Route path="/login" element={!isAuthenticated ? <Auth /> : <Navigate replace to="/" />} />
+                </Route>
+            </Routes>
         </div>
     )
 }
