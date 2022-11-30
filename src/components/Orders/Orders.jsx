@@ -1,12 +1,5 @@
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import React from "react";
-import { Avatar, Button, Container, Stack, Typography } from "@mui/material";
+import { Avatar, Button, Container, Stack, Typography, Paper, TableRow, TableContainer, TableHead, TableCell, TableBody, Table } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 
 function createData(name, calories, fat, carbs, protein) {
@@ -30,7 +23,6 @@ const Orders = () => {
             <TableHead>
               <TableRow sx={{ backgroundColor: "#e3e3e3" }}>
                 <TableCell align="left" width={120}>
-                  {" "}
                   <Typography
                     component="p"
                     variant="body1"
@@ -95,7 +87,6 @@ const Orders = () => {
                     <TableCell align="left">&nbsp;</TableCell>
                     <TableCell align="left">&nbsp;</TableCell>
                     <TableCell align="left">
-                      {" "}
                       <Typography
                         component="p"
                         variant="body1"
