@@ -52,7 +52,7 @@ const Products = () => {
         <Container maxWidth="xl" sx={{ padding: '40px 0' }}>
             <Paper sx={{ padding: '12px' }}>
                 <div className={classes.productInfo}>
-                    <Typography variant="h5">
+                    <Typography variant="h6">
                         Tổng sản phẩm hiện có: {productsData?.numberItem}
                     </Typography>
                     <RouterLink to="/products/add" className={classes.link}>

@@ -289,14 +289,18 @@ const Orders = () => {
                         <TableCell align="left">&nbsp;</TableCell>
                       </TableRow>
                     ))}
-                    <TableRow sx={{ backgroundColor: "#F5F5F5", lineHeight: "30px"}}>
-                      <TableCell>&nbsp;</TableCell>
-                      <TableCell>&nbsp;</TableCell>
-                      <TableCell>&nbsp;</TableCell>
-                      <TableCell>&nbsp;</TableCell>
-                      <TableCell>&nbsp;</TableCell>
-                      <TableCell>&nbsp;</TableCell>
-                    </TableRow>
+                    {
+                      orderIndex !== ordersData?.length - 1 ? (
+                        <TableRow sx={{ backgroundColor: "#F5F5F5", lineHeight: "30px"}}>
+                          <TableCell>&nbsp;</TableCell>
+                          <TableCell>&nbsp;</TableCell>
+                          <TableCell>&nbsp;</TableCell>
+                          <TableCell>&nbsp;</TableCell>
+                          <TableCell>&nbsp;</TableCell>
+                          <TableCell>&nbsp;</TableCell>
+                      </TableRow>
+                      ) : (<></>)
+                    }
                   </>
                 ))
               )}

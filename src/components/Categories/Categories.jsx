@@ -18,7 +18,7 @@ const Categories = () => {
         <Container maxWidth="xl" sx={{ padding: '40px 0' }}>
             <Paper sx={{ padding: '12px' }}>
                 <div className={classes.categoryInfo}>
-                    <Typography variant="h5">
+                    <Typography variant="h6">
                         Tổng danh mục hiện có: {catsData?.length}
                     </Typography>
                     <Button variant="contained" size="medium">
