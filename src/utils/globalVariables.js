@@ -12,24 +12,28 @@ export const URL_SIDEBAR = [
 ];
 
 export const ORDER_STATUS = [
-    {
-      status: "PENDING",
-      color: "warning",
-      string: "Chờ xác nhận",
-    },
-    {
-      status: "DELIVERING",
-      color: "primary",
-      string: "Đang giao",
-    },
-    {
-      status: "DONE",
-      color: "success",
-      string: "Đã giao",
-    },
-    {
-      status: "CANCELED",
-      color: "error",
-      string: "Đã hủy",
-    },
-  ];
+  {
+    status: "PENDING",
+    color: "warning",
+    string: "Chờ xác nhận",
+  },
+  {
+    status: "DELIVERING",
+    color: "primary",
+    string: "Đang giao",
+  },
+  {
+    status: "DONE",
+    color: "success",
+    string: "Đã giao",
+  },
+  {
+    status: "CANCELED",
+    color: "error",
+    string: "Đã hủy",
+  },
+];
+
+// export const PRODUCT_QUERY_STRING = ['page', 'limit'];
+
+export const LIMIT = 10;

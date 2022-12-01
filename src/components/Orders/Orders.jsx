@@ -231,7 +231,7 @@ const orders = [
 const Orders = () => {
   return (
     <>
-      <Container maxWidth="xl" sx={{ paddingTop: "40px" }}>
+      <Container maxWidth="xl" sx={{ padding: "40px 0" }}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -437,7 +437,7 @@ const Orders = () => {
                           <img
                             width={80}
                             src={transaction?.productImage}
-                            alt=""
+                            alt="product"
                           />
                         </TableCell>
                         <TableCell align="left">
