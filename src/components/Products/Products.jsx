@@ -18,6 +18,7 @@ import {
     useGetProductsQuery,
     useGetTypesQuery,
 } from '../../services/productApis';
+import { Link as RouterLink } from 'react-router-dom';
 import Pagination from '../Pagination/Pagination';
 import { LIMIT } from '../../utils/globalVariables';
 import useStyles from './styles';
@@ -54,10 +55,12 @@ const Products = () => {
                     <Typography variant="h5">
                         Tổng sản phẩm hiện có: {productsData?.numberItem}
                     </Typography>
-                    <Button variant="contained" size="medium">
-                        <AddIcon />
-                        &nbsp;Thêm mới
-                    </Button>
+                    <RouterLink to="/products/add" className={classes.link}>
+                        <Button variant="contained" size="medium">
+                            <AddIcon />
+                            &nbsp;Thêm mới
+                        </Button>
+                    </RouterLink>
                 </div>
             </Paper>
             <TableContainer component={Paper} sx={{ marginTop: '20px' }}>

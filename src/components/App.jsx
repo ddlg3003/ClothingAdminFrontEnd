@@ -9,6 +9,7 @@ import Dashboard from './Dashboard/Dashboard';
 import HeaderAndSidebar from './HeaderAndSidebar';
 import NotHeaderAndSiderbar from './NotHeaderAndSiderbar';
 import Auth from './Auth/Auth';
+import ProductControl from './ProductControl/ProductControl';
 import { useSelector } from 'react-redux';
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
                     <Route path="/products" element={isAuthenticated ? <Products /> : <Navigate replace to="/login" />} />
                     <Route path="/orders" element={isAuthenticated ? <Orders /> : <Navigate replace to="/login" />} />
                     <Route path="/users" element={isAuthenticated ? <Users /> : <Navigate replace to="/login" />} />
+                    <Route path="/products/add" element={isAuthenticated ? <ProductControl /> : <Navigate replace to="/login" />} />
                     <Route path="/categories" element={isAuthenticated ? <Categories /> : <Navigate replace to="/login" />} />
                 </Route>
                 <Route element={<NotHeaderAndSiderbar />}>
