@@ -42,9 +42,9 @@ const Products = () => {
     const { data: typesData, isFetching: isFetchingTypes } = useGetTypesQuery();
 
     const typesAvgPrice = (arr) => {
-        const total = arr.reduce((acc, element) => (acc + element.price), 0);
+        const total = arr?.reduce((acc, element) => (acc + element.price), 0);
 
-        return Math.ceil(total / arr.length);
+        return Math.ceil(total / arr?.length);
     }
 
     return (
