@@ -8,6 +8,7 @@ const product = clothing.injectEndpoints({
         getProducts: builder.query({
             query: ({ pageNumber, pageSize, cat }) =>
                 `product?pageNo=${pageNumber}&pageSize=${pageSize}&cat=${cat}`,
+            providesTags: ['Product'],
         }),
         getProduct: builder.query({
             query: (id) => `product/${id}`,
@@ -17,6 +18,21 @@ const product = clothing.injectEndpoints({
         }),
         getProductTypes: builder.query({
             query: (productId) => `type/product/${productId}`,
+        }),
+        createProduct: builder.mutation({
+            query: (formData) => ({
+                url: 'admin/product/create',
+                method: 'POST',
+                body: formData,
+            }),
+        }),
+        createTypes: builder.mutation({
+            query: (formData) => ({
+                url: 'admin/type/create',
+                method: 'POST',
+                body: formData,
+            }),
+            invalidatesTags: ['Product'],
         }),
     }),
     overrideExisting: false,
@@ -28,4 +44,6 @@ export const {
     useGetProductQuery,
     useGetTypesQuery,
     useGetProductTypesQuery,
+    useCreateProductMutation,
+    useCreateTypesMutation,
 } = product;
