@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Formik, FieldArray } from 'formik';
 import AddIcon from '@mui/icons-material/Add';
-import { useFilePicker } from 'use-file-picker';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {
   Button,
@@ -13,8 +12,6 @@ import {
   Select,
   InputLabel,
   FormControl,
-  ImageList,
-  ImageListItem,
   Paper,
   Typography,
 } from '@mui/material';
@@ -33,20 +30,23 @@ const ProductControl = () => {
     },
   ];
 
-  const [openFileSelector, { filesContent, loading, errors }] = useFilePicker({
-    readAs: 'DataURL',
-    accept: 'image/*',
-    multiple: true,
-    limitFilesConfig: { max: 5 },
-    // minFileSize: 1,
-    maxFileSize: 10, // in megabytes
-  });
+  const handleChooseImg = (e) => {
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      if (fileReader.readyState === 2) {
+        if(imageArr.length <= 5) {
+          setImageArr(prev => [...prev, fileReader.result]);
+        }
+      }
+    };
+    fileReader.readAsDataURL(e.target.files[0]);
+  }
 
-  console.log(filesContent);
+  console.log(imageArr)
 
   return (
     <Container maxWidth="xl" sx={{ padding: '40px 0' }}>
-      <Paper sx={{ padding: '24px' }}>
+      <Paper sx={{ padding: '24px 8px 24px 48px' }}>
         <Typography variant="h5" mb={4}>
           Thêm sản phẩm
         </Typography>
@@ -59,7 +59,7 @@ const ProductControl = () => {
           }}
           onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
         >
-          {({ values, handleChange, handleSubmit, setFieldValue }) => (
+          {({ values, handleChange, handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <Grid container spacing={4}>
                 <Grid item xs={6}>
@@ -181,24 +181,32 @@ const ProductControl = () => {
                     {[1, 2, 3, 4, 5].map((elem, i) => (
                       <Grid item key={elem}>
                         <img
-                          src={
-                            filesContent[i]
-                              ? filesContent[i].content
-                              : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoCzq9xjEDLMt0eFPm5RP_-kTFYleKW3iheQ&usqp=CAU`
-                          }
+                          src={imageArr[i] ? imageArr[i] : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoCzq9xjEDLMt0eFPm5RP_-kTFYleKW3iheQ&usqp=CAU`}
                           alt="img"
                           style={{ width: '200px', height: '300px' }}
                         />
                       </Grid>
                     ))}
                   </Grid>
-                  <Button
-                    variant="contained"
-                    sx={{ marginTop: '12px' }}
-                    onClick={() => openFileSelector()}
-                  >
-                    Chọn ảnh
-                  </Button>
+                  <Stack sx={{ marginTop: '12px' }} spacing={1} direction="row">
+                    <Button variant="contained" component="label">
+                      Chọn ảnh
+                      <input
+                        name="image"
+                        accept="image/*"
+                        id="contained-button-file"
+                        type="file"
+                        hidden
+                        onChange={handleChooseImg}
+                      />
+                    </Button>
+                    <Button 
+                      variant="contained"
+                      onClick={() => setImageArr([])}
+                    >
+                      Đặt lại
+                    </Button>
+                  </Stack>
                 </Grid>
               </Grid>
             </form>

@@ -11,6 +11,7 @@ import NotHeaderAndSiderbar from './NotHeaderAndSiderbar';
 import Auth from './Auth/Auth';
 import ProductControl from './ProductControl/ProductControl';
 import { useSelector } from 'react-redux';
+import CategoryControl from './CategoryControl/CategoryControl';
 
 const App = () => {
     const { isAuthenticated } = useSelector((state) => state.auth);;
@@ -25,7 +26,10 @@ const App = () => {
                     <Route path="/orders" element={isAuthenticated ? <Orders /> : <Navigate replace to="/login" />} />
                     <Route path="/users" element={isAuthenticated ? <Users /> : <Navigate replace to="/login" />} />
                     <Route path="/products/add" element={isAuthenticated ? <ProductControl /> : <Navigate replace to="/login" />} />
+                    <Route path="/products/edit/:id" element={isAuthenticated ? <ProductControl /> : <Navigate replace to="/login" />} />
                     <Route path="/categories" element={isAuthenticated ? <Categories /> : <Navigate replace to="/login" />} />
+                    <Route path="/categories/add" element={isAuthenticated ? <CategoryControl /> : <Navigate replace to="/login" />} />
+                    <Route path="/categories/edit/:id" element={isAuthenticated ? <CategoryControl /> : <Navigate replace to="/login" />} />
                 </Route>
                 <Route element={<NotHeaderAndSiderbar />}>
                     <Route path="/login" element={!isAuthenticated ? <Auth /> : <Navigate replace to="/" />} />

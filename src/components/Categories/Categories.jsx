@@ -1,18 +1,35 @@
-import { Button, Container, Link, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import {
+    Button,
+    Container,
+    Link,
+    Paper,
+    Stack,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+} from '@mui/material';
 import React from 'react';
 // import Pagination from '../Pagination/Pagination';
 import AddIcon from '@mui/icons-material/Add';
 import { useGetCategoriesQuery } from '../../services/catApis';
 import { useGetAllProductsQuery } from '../../services/productApis';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import useStyles from './styles';
 
 const Categories = () => {
     const classes = useStyles();
+    const navigate = useNavigate();
 
-    const { data: catsData, isFetching: isFetchingCats } = useGetCategoriesQuery();
-    const { data: productsData, isFetching: isFetchingProducts } = useGetAllProductsQuery();
+    const { data: catsData, isFetching: isFetchingCats } =
+        useGetCategoriesQuery();
+    const { data: productsData, isFetching: isFetchingProducts } =
+        useGetAllProductsQuery();
 
-    console.log(productsData)
+    console.log(productsData);
 
     return (
         <Container maxWidth="xl" sx={{ padding: '40px 0' }}>
@@ -21,10 +38,12 @@ const Categories = () => {
                     <Typography variant="h6">
                         Tổng danh mục hiện có: {catsData?.length}
                     </Typography>
-                    <Button variant="contained" size="medium">
-                        <AddIcon />
-                        &nbsp;Thêm mới
-                    </Button>
+                    <RouterLink to="/categories/add" className={classes.link}>
+                        <Button variant="contained" size="medium">
+                            <AddIcon />
+                            &nbsp;Thêm mới
+                        </Button>
+                    </RouterLink>
                 </div>
             </Paper>
             <TableContainer component={Paper} sx={{ marginTop: '20px' }}>
@@ -113,13 +132,27 @@ const Categories = () => {
                                             variant="body1"
                                             fontSize={16}
                                         >
-                                            {productsData?.filter(product => product.categoryId === cat?.id).length}
+                                            {
+                                                productsData?.filter(
+                                                    (product) =>
+                                                        product.categoryId ===
+                                                        cat?.id
+                                                ).length
+                                            }
                                         </Typography>
-                                        
                                     </TableCell>
                                     <TableCell align="left">
                                         <Stack direction="row" spacing={2}>
-                                            <Link href="#">Chỉnh sửa</Link>
+                                            <Link
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/categories/edit/${cat?.id}`
+                                                    )
+                                                }
+                                                sx={{ cursor: 'pointer' }}
+                                            >
+                                                Chỉnh sửa
+                                            </Link>
                                             <Link href="#">Ẩn</Link>
                                         </Stack>
                                     </TableCell>
