@@ -27,11 +27,25 @@ const product = clothing.injectEndpoints({
             }),
         }),
         createTypes: builder.mutation({
-            query: (formData) => ({
-                url: 'admin/type/create',
-                method: 'POST',
-                body: formData,
-            }),
+            query: (formData) => {
+                return {
+                    url: 'admin/type/create',
+                    method: 'POST',
+                    body: formData,
+                }
+            },
+            // invalidatesTags: ['Product'],       
+        }),
+        createProductImage: builder.mutation({
+            query: ({ formData, files }) => {
+                const { id } = formData;
+
+                return {
+                    url: `product/${id}/imageDetail`,
+                    method: 'POST',
+                    body: files,
+                }
+            },
             invalidatesTags: ['Product'],
         }),
     }),
@@ -46,4 +60,5 @@ export const {
     useGetProductTypesQuery,
     useCreateProductMutation,
     useCreateTypesMutation,
+    useCreateProductImageMutation,
 } = product;

@@ -16,13 +16,31 @@ import {
   Typography,
 } from '@mui/material';
 import { useGetCategoriesQuery } from '../../services/catApis';
-import { useCreateProductMutation } from '../../services/productApis';
+import {
+  useCreateProductMutation,
+  useCreateTypesMutation,
+  useCreateProductImageMutation,
+} from '../../services/productApis';
 import { COLOR_LIST, SIZE_LIST } from '../../utils/globalVariables';
 import * as yup from 'yup';
+import Alert from '../Alert/Alert';
+import { LoadingButton } from '@mui/lab';
+import { isValidImage } from '../../utils/helperFunction';
 import useStyles from './styles';
 
 const ProductControl = () => {
   const classes = useStyles();
+
+  const [openToast, setOpenToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
+  const handleCloseToast = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenToast(false);
+  };
 
   const { data: catsData, isFetching: isFetchingCats } =
     useGetCategoriesQuery();
@@ -32,7 +50,7 @@ const ProductControl = () => {
       .string('Nhập tên sản phẩm')
       .min(10, 'Tên sản phẩm cần có ít nhất 10 kí tự')
       .required('Tên sản phẩm là trường bắt buộc'),
-    catId: yup.string('Chọn danh mục').required('Vui lòng chọn danh mục'),
+    category_id: yup.string('Chọn danh mục').required('Vui lòng chọn danh mục'),
     description: yup
       .string('Nhập mô tả')
       .min(20, 'Mô tả cần ít nhất 20 kí tự')
@@ -62,20 +80,51 @@ const ProductControl = () => {
     fileReader.onload = () => {
       if (fileReader.readyState === 2) {
         if (imageArr.length <= 5) {
-          setImageArr((prev) => [...prev, fileReader.result]);
+          if(isValidImage(e.target)) {
+            setImageArr((prev) => [...prev, fileReader.result]);
+          }
+          else {
+            setOpenToast(true);
+            setToastMessage('Vui lòng chọn định dạng JPEG/JPG/PNG và nhỏ hơn 10MB');
+          }
         }
       }
-    };
-    fileReader.readAsDataURL(e.target.files[0]);
+    }
+
+    if(e.target.files[0]){
+      fileReader.readAsDataURL(e.target.files[0]);
+    }
   };
 
-  const [createProduct] = useCreateProductMutation();
+  const [createProduct, { isLoading: isLoadingProduct }] =
+    useCreateProductMutation();
+  const [createTypes, { isLoading: isLoadingType }] = useCreateTypesMutation();
+  const [createProductImage, { isLoading: isLoadingImg }] =
+    useCreateProductImageMutation();
 
   const submit = async (values) => {
     const { types, ...productData } = values;
 
-    await createProduct(productData);
-  }
+    if (imageArr.length === 5) {
+      // Create product main field
+      // const { data: newProduct } = await createProduct(productData);
+
+      // Create types based on product
+      // const { id } = newProduct;
+      // console.log(id);
+      // const newTypes = types.map(type => ({ ...type, product_id: id }));    
+      // console.log(newTypes)  
+      // await createTypes(newTypes);
+
+      // Upload images for product
+      // const formData = new FormData();
+      // imageArr.forEach(img => formData.append('image', img));
+      // await createProductImage(formData);
+    } else {
+      setOpenToast(true);
+      setToastMessage('Vui lòng chọn đủ 5 ảnh');
+    }
+  };
 
   return (
     <Container maxWidth="xl" sx={{ padding: '40px 0' }}>
@@ -87,7 +136,7 @@ const ProductControl = () => {
           initialValues={{
             name: '',
             description: '',
-            catId: '',
+            category_id: '',
             types: [{ color: '', size: '', quantity: '', price: '' }],
           }}
           onSubmit={submit}
@@ -109,14 +158,14 @@ const ProductControl = () => {
                       className={classes.helperText}
                     />
                     <FormControl fullWidth>
-                      <InputLabel id="catId">Danh mục</InputLabel>
+                      <InputLabel id="category_id">Danh mục</InputLabel>
                       <Select
                         defaultValue="--Chọn danh mục--"
-                        labelId="catId"
-                        id="catId"
-                        name="catId"
+                        labelId="category_id"
+                        id="category_id"
+                        name="category_id"
                         label="Danh mục"
-                        value={values.catId}
+                        value={values.category_id}
                         onChange={handleChange}
                         required
                       >
@@ -163,110 +212,105 @@ const ProductControl = () => {
                           >
                             <AddIcon /> Thêm loại
                           </Button>
-                          {
-                            values.types.map((type, i) => {
-                              const quantity = `types[${i}].quantity`;
-                              const touchedQuantity = getIn(touched, quantity);
-                              const errorsQuantity = getIn(errors, quantity);
+                          {values.types.map((type, i) => {
+                            const quantity = `types[${i}].quantity`;
+                            const touchedQuantity = getIn(touched, quantity);
+                            const errorsQuantity = getIn(errors, quantity);
 
-                              const price = `types[${i}].price`;
-                              const touchedPrice = getIn(touched, price);
-                              const errorsPrice = getIn(errors, price);
+                            const price = `types[${i}].price`;
+                            const touchedPrice = getIn(touched, price);
+                            const errorsPrice = getIn(errors, price);
 
-                              return (
-                                <Stack
-                                  key={i}
-                                  direction="row"
-                                  spacing={1}
-                                  mb={2}
-                                >
-                                  <FormControl fullWidth>
-                                    <InputLabel id="color">Màu sắc</InputLabel>
-                                    <Select
-                                      defaultValue=""
-                                      id="color"
-                                      name={`types.${i}.color`}
-                                      label="Màu sắc"
-                                      value={values.types[i].color}
-                                      onChange={handleChange}
-                                      required
-                                    >
-                                      {COLOR_LIST.map((color, i) => (
-                                        <MenuItem key={i} value={color.color}>
-                                          {color.name}
-                                        </MenuItem>
-                                      ))}
-                                    </Select>
-                                  </FormControl>
-                                  <FormControl fullWidth>
-                                    <InputLabel id="size">Kích cỡ</InputLabel>
-                                    <Select
-                                      defaultValue=""
-                                      id="size"
-                                      name={`types.${i}.size`}
-                                      label="Kích cỡ"
-                                      value={`${values.types[i].size}`}
-                                      onChange={handleChange}
-                                      required
-                                    >
-                                      {SIZE_LIST.map((size, i) => (
-                                        <MenuItem key={i} value={size}>
-                                          {size}
-                                        </MenuItem>
-                                      ))}
-                                    </Select>
-                                  </FormControl>
-                                  <TextField
-                                    id="quantity"
-                                    name={`types.${i}.quantity`}
-                                    label="Số lượng"
-                                    value={`${values.types[i].quantity}`}
+                            return (
+                              <Stack key={i} direction="row" spacing={1} mb={2}>
+                                <FormControl fullWidth>
+                                  <InputLabel id="color">Màu sắc</InputLabel>
+                                  <Select
+                                    defaultValue=""
+                                    id="color"
+                                    name={`types.${i}.color`}
+                                    label="Màu sắc"
+                                    value={values.types[i].color}
                                     onChange={handleChange}
-                                    error={Boolean(
-                                      touchedQuantity && errorsQuantity
-                                    )}
-                                    helperText={
-                                      touchedQuantity && errorsQuantity
-                                        ? errorsQuantity
-                                        : ''
-                                    }
-                                    className={classes.helperText}
-                                    type="number"
-                                    fullWidth
-                                  />
-                                  <TextField
-                                    id="price"
-                                    name={`types.${i}.price`}
-                                    label="Giá"
-                                    value={`${values.types[i].price}`}
-                                    onChange={handleChange}
-                                    error={touchedPrice && Boolean(errorsPrice)}
-                                    helperText={touchedPrice && errorsPrice}
-                                    className={classes.helperText}
-                                    type="number"
-                                    fullWidth
-                                  />
-                                  <Button
-                                    variant="contained"
-                                    onClick={() => arrayHelpers.remove(i)}
+                                    required
                                   >
-                                    <RemoveIcon />
-                                  </Button>
-                                </Stack>
-                              );
-                            })}
+                                    {COLOR_LIST.map((color, i) => (
+                                      <MenuItem key={i} value={color.color}>
+                                        {color.name}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                </FormControl>
+                                <FormControl fullWidth>
+                                  <InputLabel id="size">Kích cỡ</InputLabel>
+                                  <Select
+                                    defaultValue=""
+                                    id="size"
+                                    name={`types.${i}.size`}
+                                    label="Kích cỡ"
+                                    value={`${values.types[i].size}`}
+                                    onChange={handleChange}
+                                    required
+                                  >
+                                    {SIZE_LIST.map((size, i) => (
+                                      <MenuItem key={i} value={size}>
+                                        {size}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                </FormControl>
+                                <TextField
+                                  id="quantity"
+                                  name={`types.${i}.quantity`}
+                                  label="Số lượng"
+                                  value={`${values.types[i].quantity}`}
+                                  onChange={handleChange}
+                                  error={Boolean(
+                                    touchedQuantity && errorsQuantity
+                                  )}
+                                  helperText={
+                                    touchedQuantity && errorsQuantity
+                                      ? errorsQuantity
+                                      : ''
+                                  }
+                                  className={classes.helperText}
+                                  type="number"
+                                  fullWidth
+                                />
+                                <TextField
+                                  id="price"
+                                  name={`types.${i}.price`}
+                                  label="Giá"
+                                  value={`${values.types[i].price}`}
+                                  onChange={handleChange}
+                                  error={touchedPrice && Boolean(errorsPrice)}
+                                  helperText={touchedPrice && errorsPrice}
+                                  className={classes.helperText}
+                                  type="number"
+                                  fullWidth
+                                />
+                                <Button
+                                  variant="contained"
+                                  onClick={() => arrayHelpers.remove(i)}
+                                >
+                                  <RemoveIcon />
+                                </Button>
+                              </Stack>
+                            );
+                          })}
                         </div>
                       )}
                     />
                   </Stack>
-                  <Button
+                  <LoadingButton
                     color="primary"
                     variant="contained"
                     type="submit"
+                    loading={isLoadingProduct || isLoadingType || isLoadingImg}
                     size="large"
                   >
                     Lưu sản phẩm
-                  </Button>
+                  </LoadingButton>
                 </Grid>
                 <Grid item xs={6}>
                   <Grid container spacing={1}>
@@ -288,7 +332,13 @@ const ProductControl = () => {
                     ))}
                   </Grid>
                   <Stack sx={{ marginTop: '12px' }} spacing={1} direction="row">
-                    <Button variant="contained" component="label">
+                    <Button
+                      variant="contained"
+                      component="label"
+                      disabled={
+                        isLoadingProduct || isLoadingType || isLoadingImg
+                      }
+                    >
                       Chọn ảnh
                       <input
                         name="image"
@@ -299,7 +349,13 @@ const ProductControl = () => {
                         onChange={handleChooseImg}
                       />
                     </Button>
-                    <Button variant="contained" onClick={() => setImageArr([])}>
+                    <Button
+                      variant="contained"
+                      onClick={() => setImageArr([])}
+                      disabled={
+                        isLoadingProduct || isLoadingType || isLoadingImg
+                      }
+                    >
                       Đặt lại
                     </Button>
                   </Stack>
@@ -308,6 +364,13 @@ const ProductControl = () => {
             </form>
           )}
         </Formik>
+        <Alert
+          message={toastMessage}
+          openToast={openToast}
+          handleCloseToast={handleCloseToast}
+          color="error"
+          severity="error"
+        />
       </Paper>
     </Container>
   );
