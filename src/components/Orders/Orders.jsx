@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Avatar,
   Button,
@@ -10,19 +11,21 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
+  Typography
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
 import {
   useGetAllOrdersQuery,
   useAcceptOrderMutation,
-  useDenyOrderMutation,
+  useDenyOrderMutation, 
 } from "../../services/orderApis";
 import { ERROR_MESSAGES, ORDER_STATUS } from "../../utils/globalVariables";
 import CancelOrderDialog from "./CancelOrderDialog";
 
 const Orders = () => {
-  // confirmation dialog's state
+  const { data: ordersData, isFetching: isFetchingOrders } =
+  useGetAllOrdersQuery();
+
+  // cancel order dialog's state
   const [openCancelOrderDialog, setOpenCancelOrderDialog] = useState("");
 
   const handleClickCancelOrder = (orderId) => {
@@ -36,6 +39,7 @@ const Orders = () => {
   const [denyOrder] = useDenyOrderMutation();
   const [acceptOrder, { error }] = useAcceptOrderMutation();
 
+  // api calls
   const handleConfirmCancelOrder = async (orderId) => {
     await denyOrder(orderId);
   };
@@ -45,18 +49,13 @@ const Orders = () => {
       .unwrap()
       .then()
       .catch((error) => {
-        if (error.originalStatus === 409)
-          alert(ERROR_MESSAGES[0]);
+        if (error.originalStatus === 409) alert(ERROR_MESSAGES[0]);
       });
   };
 
   const handleCompletingOrder = async (orderId) => {
     await acceptOrder(orderId);
   };
-
-  const { data: ordersData, isFetching: isFetchingOrders } =
-    useGetAllOrdersQuery();
- 
 
   return (
     <>
@@ -133,12 +132,6 @@ const Orders = () => {
                   <>
                     <TableRow
                       key={order?.id}
-                      sx={
-                        {
-                          // backgroundColor: "#f2f2f2",
-                          // borderTop: "2px solid",
-                        }
-                      }
                     >
                       <TableCell colSpan={2}>
                         <Stack>
