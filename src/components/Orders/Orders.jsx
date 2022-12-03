@@ -1,9 +1,7 @@
-import React, { useState } from "react";
 import {
   Avatar,
   Button,
-  Container,
-  Paper,
+  Container, Divider, Paper,
   Stack,
   Table,
   TableBody,
@@ -11,41 +9,58 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
-  Divider
+  Typography
 } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import {
-  useGetAllOrdersQuery,
   useAcceptOrderMutation,
-  useDenyOrderMutation, 
-  useGetOrdersQuery,
+  useDenyOrderMutation,
+  useGetOrdersQuery
 } from "../../services/orderApis";
-import { ERROR_MESSAGES, ORDER_STATUS, ORDER_PAGING_LIMIT } from "../../utils/globalVariables";
+import {
+  ERROR_MESSAGES, ORDER_PAGING_LIMIT, ORDER_STATUS
+} from "../../utils/globalVariables";
 import CancelOrderDialog from "./CancelOrderDialog";
 import Pagination from "./Pagination";
 
 const Orders = () => {
+  // handle scroll position after content load
+  const handleScrollPosition = () => {
+    const scrollPosition = sessionStorage.getItem("scrollPosition");
+    window.scrollTo(0, parseInt(scrollPosition));
+  };
+
+  // store position in sessionStorage
+  const handleStoreScrollPosition = (e) => {
+    sessionStorage.setItem("scrollPosition", window.pageYOffset);
+  };
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(ORDER_PAGING_LIMIT);
 
   const handleChangePage = (event, newPage) => {
-      setPage(newPage);
+    setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-      setRowsPerPage(parseInt(event.target.value, ORDER_PAGING_LIMIT));
-      setPage(0);
+    setRowsPerPage(parseInt(event.target.value, ORDER_PAGING_LIMIT));
+    setPage(0);
   };
 
-  const { data: ordersData, isFetching: isFetchingOrders } =
-  useGetOrdersQuery({ pageNumber: page + 1, pageSize: rowsPerPage });
-  console.log(ordersData);
+  const { data: ordersData, isFetching: isFetchingOrders } = useGetOrdersQuery({
+    pageNumber: page + 1,
+    pageSize: rowsPerPage,
+  });
+
+  useEffect(() => {
+    handleScrollPosition();
+  }, [isFetchingOrders]);
 
   // cancel order dialog's state
   const [openCancelOrderDialog, setOpenCancelOrderDialog] = useState("");
 
   const handleClickCancelOrder = (orderId) => {
+    handleStoreScrollPosition();
     setOpenCancelOrderDialog(orderId);
   };
 
@@ -59,15 +74,19 @@ const Orders = () => {
   // api calls
   const handleConfirmCancelOrder = async (orderId) => {
     await denyOrder(orderId);
+    handleScrollPosition();
   };
 
   const handleAcceptOrder = async (orderId) => {
+    handleStoreScrollPosition();
     await acceptOrder(orderId)
       .unwrap()
       .then()
       .catch((error) => {
         if (error.originalStatus === 409) alert(ERROR_MESSAGES[0]);
       });
+
+    handleScrollPosition();
   };
 
   const handleCompletingOrder = async (orderId) => {
@@ -147,9 +166,7 @@ const Orders = () => {
               ) : (
                 ordersData.orderMapperList.map((order, orderIndex) => (
                   <>
-                    <TableRow
-                      key={order?.id}
-                    >
+                    <TableRow key={order?.id} sx={{ height: "130px" }}>
                       <TableCell colSpan={2}>
                         <Stack>
                           <Stack
@@ -220,7 +237,6 @@ const Orders = () => {
                         </Stack>
                       </TableCell>
                       <TableCell align="left">
-                        
                         <Typography
                           component="p"
                           variant="body1"
@@ -358,7 +374,7 @@ const Orders = () => {
                       </TableRow>
                     ) : (
                       <>
-                      <Divider/>
+                        <Divider />
                       </>
                     )}
                   </>
@@ -368,12 +384,12 @@ const Orders = () => {
           </Table>
         </TableContainer>
         <Pagination
-                page={page}
-                handleChangePage={handleChangePage}
-                rowsPerPage={rowsPerPage}
-                handleChangeRowsPerPage={handleChangeRowsPerPage}
-                count={!isFetchingOrders ? ordersData?.numberItem : 0}
-            />
+          page={page}
+          handleChangePage={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+          count={!isFetchingOrders ? ordersData?.numberItem : 0}
+        />
       </Container>
     </>
   );

@@ -79,7 +79,7 @@ const Header = () => {
                         },
                     }}
                 >
-                    <Link
+                    {/* <Link
                         to="/"
                         style={{
                             textDecoration: 'none',
@@ -89,7 +89,7 @@ const Header = () => {
                         <MenuItem onClick={handleCloseAuth}>
                             Trang cá nhân
                         </MenuItem>
-                    </Link>
+                    </Link> */}
                     <Link
                         to="/login"
                         style={{
