@@ -4,6 +4,10 @@ const product = clothing.injectEndpoints({
     endpoints: (builder) => ({
         getAllOrders: builder.query({
             query: () => 'admin/orders/getAll',
+        }),
+        getOrders: builder.query({
+            query: ({ pageNumber, pageSize }) =>
+                `admin/order?pageNo=${pageNumber}&pageSize=${pageSize}`,
             providesTags: ['Order'],
         }),
         acceptOrder: builder.mutation({
@@ -26,6 +30,7 @@ const product = clothing.injectEndpoints({
 
 export const { 
     useGetAllOrdersQuery,
+    useGetOrdersQuery,
     useAcceptOrderMutation,
     useDenyOrderMutation
 } = product;

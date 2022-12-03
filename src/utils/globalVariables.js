@@ -22,7 +22,7 @@ export const ORDER_STATUS = [
   },
   {
     status: "DONE",
-    string: "Đã giao",
+    string: "Giao hàng thành công",
   },
   {
     status: "CANCELED",
@@ -33,6 +33,8 @@ export const ORDER_STATUS = [
 // export const PRODUCT_QUERY_STRING = ['page', 'limit'];
 
 export const LIMIT = 10;
+
+export const ORDER_PAGING_LIMIT = 5;
 
 export const COLOR_LIST = [
   {

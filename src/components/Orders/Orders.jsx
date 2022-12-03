@@ -11,19 +11,36 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography
+  Typography,
+  Divider
 } from "@mui/material";
 import {
   useGetAllOrdersQuery,
   useAcceptOrderMutation,
   useDenyOrderMutation, 
+  useGetOrdersQuery,
 } from "../../services/orderApis";
-import { ERROR_MESSAGES, ORDER_STATUS } from "../../utils/globalVariables";
+import { ERROR_MESSAGES, ORDER_STATUS, ORDER_PAGING_LIMIT } from "../../utils/globalVariables";
 import CancelOrderDialog from "./CancelOrderDialog";
+import Pagination from "./Pagination";
 
 const Orders = () => {
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(ORDER_PAGING_LIMIT);
+
+  const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(parseInt(event.target.value, ORDER_PAGING_LIMIT));
+      setPage(0);
+  };
+
   const { data: ordersData, isFetching: isFetchingOrders } =
-  useGetAllOrdersQuery();
+  useGetOrdersQuery({ pageNumber: page + 1, pageSize: rowsPerPage });
+  console.log(ordersData);
 
   // cancel order dialog's state
   const [openCancelOrderDialog, setOpenCancelOrderDialog] = useState("");
@@ -63,7 +80,7 @@ const Orders = () => {
         <Paper sx={{ padding: "12px", marginBottom: "20px" }}>
           <div sx={{ display: "flex", justifyContent: "space-between" }}>
             <Typography variant="h6">
-              Tổng đơn hàng hiện có: {ordersData?.length}
+              Tổng đơn hàng hiện có: {ordersData?.numberItem}
             </Typography>
           </div>
         </Paper>
@@ -101,7 +118,7 @@ const Orders = () => {
                     variant="body1"
                     fontWeight="bold"
                     fontSize={18}
-                    sx={{ width: "180px" }}
+                    sx={{ width: "200px" }}
                   >
                     Trạng thái
                   </Typography>
@@ -123,12 +140,12 @@ const Orders = () => {
                 <TableRow>
                   <TableCell colSpan={4}>
                     <Typography variant="body1" fontSize={16} fontWeight="bold">
-                      ...Đang tải đơn hàng
+                      Đang tải đơn hàng...
                     </Typography>
                   </TableCell>
                 </TableRow>
               ) : (
-                ordersData.map((order, orderIndex) => (
+                ordersData.orderMapperList.map((order, orderIndex) => (
                   <>
                     <TableRow
                       key={order?.id}
@@ -165,7 +182,7 @@ const Orders = () => {
                             component="p"
                             variant="body1"
                             fontSize={16}
-                            fontWeight="bold"
+                            // fontWeight="bold"
                           >
                             Mã đơn hàng: {order?.id}
                           </Typography>
@@ -184,7 +201,7 @@ const Orders = () => {
                           <Typography
                             component="p"
                             variant="body1"
-                            fontSize={18}
+                            fontSize={20}
                             fontWeight="bold"
                           >
                             {Intl.NumberFormat("vi-VN", {
@@ -203,11 +220,12 @@ const Orders = () => {
                         </Stack>
                       </TableCell>
                       <TableCell align="left">
+                        
                         <Typography
                           component="p"
                           variant="body1"
                           fontSize={18}
-                          fontWeight="bold"
+                          // fontWeight="bold"
                         >
                           {
                             ORDER_STATUS.find(
@@ -327,7 +345,7 @@ const Orders = () => {
                         <TableCell align="left">&nbsp;</TableCell>
                       </TableRow>
                     ))}
-                    {orderIndex !== ordersData?.length - 1 ? (
+                    {orderIndex !== ordersData.orderMapperList.length - 1 ? (
                       <TableRow
                         sx={{ backgroundColor: "#F5F5F5", lineHeight: "30px" }}
                       >
@@ -339,7 +357,9 @@ const Orders = () => {
                         <TableCell>&nbsp;</TableCell>
                       </TableRow>
                     ) : (
-                      <></>
+                      <>
+                      <Divider/>
+                      </>
                     )}
                   </>
                 ))
@@ -347,6 +367,13 @@ const Orders = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        <Pagination
+                page={page}
+                handleChangePage={handleChangePage}
+                rowsPerPage={rowsPerPage}
+                handleChangeRowsPerPage={handleChangeRowsPerPage}
+                count={!isFetchingOrders ? ordersData?.numberItem : 0}
+            />
       </Container>
     </>
   );
