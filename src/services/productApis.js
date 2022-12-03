@@ -46,6 +46,9 @@ const product = clothing.injectEndpoints({
             },
             invalidatesTags: ['Product'],
         }),
+        getImagesList: builder.query({
+            query: (id) => `product/${id}/imageDetail`,
+        }),
     }),
     overrideExisting: false,
 });
@@ -59,4 +62,5 @@ export const {
     useCreateProductMutation,
     useCreateTypesMutation,
     useCreateProductImageMutation,
+    useGetImagesListQuery,
 } = product;

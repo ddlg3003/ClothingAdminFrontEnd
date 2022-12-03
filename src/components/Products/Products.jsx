@@ -18,13 +18,14 @@ import {
     useGetProductsQuery,
     useGetTypesQuery,
 } from '../../services/productApis';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Pagination from '../Pagination/Pagination';
 import { LIMIT } from '../../utils/globalVariables';
 import useStyles from './styles';
 
 const Products = () => {
     const classes = useStyles();
+    const navigate = useNavigate();
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(LIMIT);
@@ -230,7 +231,16 @@ const Products = () => {
                                     </TableCell>
                                     <TableCell align="left">
                                         <Stack direction="row" spacing={2}>
-                                            <Link href="#">Chỉnh sửa</Link>
+                                        <Link
+                                            onClick={() =>
+                                                navigate(
+                                                    `/products/edit/${product?.id}`
+                                                )
+                                            }
+                                            sx={{ cursor: 'pointer' }}
+                                        >
+                                            Chỉnh sửa
+                                        </Link>
                                             <Link href="#">Ẩn</Link>
                                         </Stack>
                                     </TableCell>
