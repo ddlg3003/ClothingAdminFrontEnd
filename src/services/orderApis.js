@@ -6,8 +6,8 @@ const product = clothing.injectEndpoints({
             query: () => 'admin/orders/getAll',
         }),
         getOrders: builder.query({
-            query: ({ pageNumber, pageSize }) =>
-                `admin/order?pageNo=${pageNumber}&pageSize=${pageSize}`,
+            query: ({ pageNumber, pageSize, status }) =>
+                `admin/order?pageNo=${pageNumber}&pageSize=${pageSize}&status=${status}`,
             providesTags: ['Order'],
         }),
         acceptOrder: builder.mutation({

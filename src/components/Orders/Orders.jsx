@@ -50,6 +50,7 @@ const Orders = () => {
   const { data: ordersData, isFetching: isFetchingOrders } = useGetOrdersQuery({
     pageNumber: page + 1,
     pageSize: rowsPerPage,
+    status: '',
   });
 
   useEffect(() => {
