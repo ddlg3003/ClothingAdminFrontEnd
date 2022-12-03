@@ -12,15 +12,51 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React from "react";
-import { useGetAllOrdersQuery } from "../../services/orderApis";
-import { ORDER_STATUS } from "../../utils/globalVariables";
+import React, { useState, useEffect } from "react";
+import {
+  useGetAllOrdersQuery,
+  useAcceptOrderMutation,
+  useDenyOrderMutation,
+} from "../../services/orderApis";
+import { ERROR_MESSAGES, ORDER_STATUS } from "../../utils/globalVariables";
+import CancelOrderDialog from "./CancelOrderDialog";
 
 const Orders = () => {
+  // confirmation dialog's state
+  const [openCancelOrderDialog, setOpenCancelOrderDialog] = useState("");
+
+  const handleClickCancelOrder = (orderId) => {
+    setOpenCancelOrderDialog(orderId);
+  };
+
+  const handleCloseCancelOrder = () => {
+    setOpenCancelOrderDialog("");
+  };
+
+  const [denyOrder] = useDenyOrderMutation();
+  const [acceptOrder, { error }] = useAcceptOrderMutation();
+
+  const handleConfirmCancelOrder = async (orderId) => {
+    await denyOrder(orderId);
+  };
+
+  const handleAcceptOrder = async (orderId) => {
+    await acceptOrder(orderId)
+      .unwrap()
+      .then()
+      .catch((error) => {
+        if (error.originalStatus === 409)
+          alert(ERROR_MESSAGES[0]);
+      });
+  };
+
+  const handleCompletingOrder = async (orderId) => {
+    await acceptOrder(orderId);
+  };
 
   const { data: ordersData, isFetching: isFetchingOrders } =
     useGetAllOrdersQuery();
-  console.log(ordersData);
+ 
 
   return (
     <>
@@ -95,7 +131,8 @@ const Orders = () => {
               ) : (
                 ordersData.map((order, orderIndex) => (
                   <>
-                    <TableRow key={order?.id}
+                    <TableRow
+                      key={order?.id}
                       sx={
                         {
                           // backgroundColor: "#f2f2f2",
@@ -192,24 +229,32 @@ const Orders = () => {
                             <Button
                               sx={{ width: "130px" }}
                               variant="contained"
-
-                              // startIcon={<CheckIcon />}
+                              onClick={() => handleAcceptOrder(order.id)}
                             >
                               Xác nhận
                             </Button>
+
                             <Button
                               sx={{ width: "130px" }}
                               variant="outlined"
-                              // startIcon={<ClearIcon />}
+                              onClick={() => handleClickCancelOrder(order.id)}
                             >
                               Hủy đơn
                             </Button>
+                            <CancelOrderDialog
+                              open={openCancelOrderDialog === order.id}
+                              onClose={handleCloseCancelOrder}
+                              orderId={order.id}
+                              handleConfirmCancelOrder={
+                                handleConfirmCancelOrder
+                              }
+                            />
                           </Stack>
                         ) : order?.ordStatus === ORDER_STATUS[1].status ? (
                           <Button
                             sx={{ width: "130px" }}
                             variant="contained"
-                            // startIcon={<LocalShippingIcon />}
+                            onClick={() => handleCompletingOrder(order.id)}
                           >
                             Đã giao
                           </Button>
@@ -289,18 +334,20 @@ const Orders = () => {
                         <TableCell align="left">&nbsp;</TableCell>
                       </TableRow>
                     ))}
-                    {
-                      orderIndex !== ordersData?.length - 1 ? (
-                        <TableRow sx={{ backgroundColor: "#F5F5F5", lineHeight: "30px"}}>
-                          <TableCell>&nbsp;</TableCell>
-                          <TableCell>&nbsp;</TableCell>
-                          <TableCell>&nbsp;</TableCell>
-                          <TableCell>&nbsp;</TableCell>
-                          <TableCell>&nbsp;</TableCell>
-                          <TableCell>&nbsp;</TableCell>
+                    {orderIndex !== ordersData?.length - 1 ? (
+                      <TableRow
+                        sx={{ backgroundColor: "#F5F5F5", lineHeight: "30px" }}
+                      >
+                        <TableCell>&nbsp;</TableCell>
+                        <TableCell>&nbsp;</TableCell>
+                        <TableCell>&nbsp;</TableCell>
+                        <TableCell>&nbsp;</TableCell>
+                        <TableCell>&nbsp;</TableCell>
+                        <TableCell>&nbsp;</TableCell>
                       </TableRow>
-                      ) : (<></>)
-                    }
+                    ) : (
+                      <></>
+                    )}
                   </>
                 ))
               )}

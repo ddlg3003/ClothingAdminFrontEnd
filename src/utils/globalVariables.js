@@ -14,22 +14,18 @@ export const URL_SIDEBAR = [
 export const ORDER_STATUS = [
   {
     status: "PENDING",
-    color: "warning",
     string: "Chờ xác nhận",
   },
   {
     status: "DELIVERING",
-    color: "primary",
     string: "Đang giao",
   },
   {
     status: "DONE",
-    color: "success",
     string: "Đã giao",
   },
   {
     status: "CANCELED",
-    color: "error",
     string: "Đã hủy",
   },
 ];
@@ -62,3 +58,5 @@ export const COLOR_LIST = [
 ];
 
 export const SIZE_LIST = [1, 2, 3, 4, 5];
+
+export const ERROR_MESSAGES = ["Không đủ số lượng sản phẩm trong kho!"];
