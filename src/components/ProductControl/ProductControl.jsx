@@ -32,7 +32,12 @@ const ProductControl = () => {
   const classes = useStyles();
 
   const [openToast, setOpenToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+
+  const [toast, setToast] = useState({
+    message: '',
+    color: '',
+    severity: '',
+  });
 
   const handleCloseToast = (event, reason) => {
     if (reason === 'clickaway') {
@@ -68,7 +73,7 @@ const ProductControl = () => {
           .max(1000000000, 'Số quá lớn')
           .required('Bắt buộc'),
         color: yup.string('Chọn màu').required('Vui lòng chọn màu'),
-        color: yup.string('Chọn cỡ').required('Vui lòng chọn cỡ'),
+        size: yup.string('Chọn cỡ').required('Vui lòng chọn cỡ'),
       })
     ),
   });
@@ -76,23 +81,27 @@ const ProductControl = () => {
   const [imageArr, setImageArr] = useState([]);
 
   const handleChooseImg = (e) => {
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      if (fileReader.readyState === 2) {
-        if (imageArr.length <= 5) {
-          if(isValidImage(e.target)) {
-            setImageArr((prev) => [...prev, fileReader.result]);
-          }
-          else {
-            setOpenToast(true);
-            setToastMessage('Vui lòng chọn định dạng JPEG/JPG/PNG và nhỏ hơn 10MB');
-          }
-        }
+    // Check when choose 5 image or not
+    if (imageArr.length <= 5) {
+      // Check valid image to upload (<10mb, jpg/jpeg/png)
+      if (isValidImage(e.target.files[0])) {
+        // Set image for imageArr
+        setImageArr((prev) => [
+          ...prev,
+          {
+            content: URL.createObjectURL(e.target.files[0]), // URL for show in UI
+            file: e.target.files[0], // file to upload to cloudinary
+          },
+        ]);
+      } else {
+        setOpenToast(true);
+        setToast((toast) => ({
+          ...toast,
+          color: 'error',
+          severity: 'error',
+          message: 'Vui lòng chọn định dạng JPEG/JPG/PNG và nhỏ hơn 10MB',
+        }));
       }
-    }
-
-    if(e.target.files[0]){
-      fileReader.readAsDataURL(e.target.files[0]);
     }
   };
 
@@ -102,27 +111,67 @@ const ProductControl = () => {
   const [createProductImage, { isLoading: isLoadingImg }] =
     useCreateProductImageMutation();
 
-  const submit = async (values) => {
+  const formInit = {
+    name: '',
+    description: '',
+    category_id: '',
+    types: [{ color: '', size: '', quantity: '', price: '' }],
+  };
+
+  const submit = async (values, { resetForm }) => {
     const { types, ...productData } = values;
 
+    console.log(imageArr);
     if (imageArr.length === 5) {
       // Create product main field
-      // const { data: newProduct } = await createProduct(productData);
+      try {
+        const { data: newProduct } = await createProduct(productData);
 
-      // Create types based on product
-      // const { id } = newProduct;
-      // console.log(id);
-      // const newTypes = types.map(type => ({ ...type, product_id: id }));    
-      // console.log(newTypes)  
-      // await createTypes(newTypes);
+        // Create types based on product
+        const { id } = newProduct;
 
-      // Upload images for product
-      // const formData = new FormData();
-      // imageArr.forEach(img => formData.append('image', img));
-      // await createProductImage(formData);
+        const newTypes = types.map((type) => ({
+          ...type,
+          size: type.size.toString(),
+          price: type.price.toString(),
+          quantity: type.quantity.toString(),
+        }));
+
+        await createTypes({ id, formData: newTypes });
+
+        // Upload images for product
+        const files = new FormData();
+        imageArr.forEach((img) => files.append('image', img.file));
+        await createProductImage({ id, files });
+
+        setOpenToast(true);
+        setToast((toast) => ({
+          ...toast,
+          color: 'success',
+          severity: 'success',
+          message: 'Tạo sản phẩm thành công',
+        }));
+
+        // Reset form
+        resetForm();
+        setImageArr([]);
+      } catch (error) {
+        setOpenToast(true);
+        setToast((toast) => ({
+          ...toast,
+          color: 'error',
+          severity: 'error',
+          message: 'Đã có lỗi xảy ra vui lòng thử lại',
+        }));
+      }
     } else {
       setOpenToast(true);
-      setToastMessage('Vui lòng chọn đủ 5 ảnh');
+      setToast((toast) => ({
+        ...toast,
+        color: 'error',
+        severity: 'error',
+        message: 'Vui lòng chọn đủ 5 ảnh',
+      }));
     }
   };
 
@@ -133,12 +182,7 @@ const ProductControl = () => {
           Thêm sản phẩm
         </Typography>
         <Formik
-          initialValues={{
-            name: '',
-            description: '',
-            category_id: '',
-            types: [{ color: '', size: '', quantity: '', price: '' }],
-          }}
+          initialValues={formInit}
           onSubmit={submit}
           validationSchema={validationSchema}
         >
@@ -156,6 +200,7 @@ const ProductControl = () => {
                       error={touched.name && Boolean(errors.name)}
                       helperText={touched.name && errors.name}
                       className={classes.helperText}
+                      disabled={isLoadingImg}
                     />
                     <FormControl fullWidth>
                       <InputLabel id="category_id">Danh mục</InputLabel>
@@ -167,6 +212,7 @@ const ProductControl = () => {
                         label="Danh mục"
                         value={values.category_id}
                         onChange={handleChange}
+                        disabled={isLoadingImg}
                         required
                       >
                         {isFetchingCats ? (
@@ -191,6 +237,7 @@ const ProductControl = () => {
                       error={touched.description && Boolean(errors.description)}
                       helperText={touched.description && errors.description}
                       className={classes.helperText}
+                      disabled={isLoadingImg}
                     />
                     <FieldArray
                       name="types"
@@ -209,6 +256,7 @@ const ProductControl = () => {
                             sx={{
                               marginBottom: '12px',
                             }}
+                            disabled={isLoadingImg}
                           >
                             <AddIcon /> Thêm loại
                           </Button>
@@ -232,6 +280,7 @@ const ProductControl = () => {
                                     label="Màu sắc"
                                     value={values.types[i].color}
                                     onChange={handleChange}
+                                    disabled={isLoadingImg}
                                     required
                                   >
                                     {COLOR_LIST.map((color, i) => (
@@ -250,6 +299,7 @@ const ProductControl = () => {
                                     label="Kích cỡ"
                                     value={`${values.types[i].size}`}
                                     onChange={handleChange}
+                                    disabled={isLoadingImg}
                                     required
                                   >
                                     {SIZE_LIST.map((size, i) => (
@@ -275,6 +325,7 @@ const ProductControl = () => {
                                   }
                                   className={classes.helperText}
                                   type="number"
+                                  disabled={isLoadingImg}
                                   fullWidth
                                 />
                                 <TextField
@@ -287,11 +338,13 @@ const ProductControl = () => {
                                   helperText={touchedPrice && errorsPrice}
                                   className={classes.helperText}
                                   type="number"
+                                  disabled={isLoadingImg}
                                   fullWidth
                                 />
                                 <Button
                                   variant="contained"
                                   onClick={() => arrayHelpers.remove(i)}
+                                  disabled={isLoadingImg}
                                 >
                                   <RemoveIcon />
                                 </Button>
@@ -306,7 +359,7 @@ const ProductControl = () => {
                     color="primary"
                     variant="contained"
                     type="submit"
-                    loading={isLoadingProduct || isLoadingType || isLoadingImg}
+                    loading={isLoadingImg}
                     size="large"
                   >
                     Lưu sản phẩm
@@ -319,7 +372,7 @@ const ProductControl = () => {
                         <img
                           src={
                             imageArr[i]
-                              ? imageArr[i]
+                              ? imageArr[i].content
                               : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoCzq9xjEDLMt0eFPm5RP_-kTFYleKW3iheQ&usqp=CAU`
                           }
                           alt="img"
@@ -335,9 +388,7 @@ const ProductControl = () => {
                     <Button
                       variant="contained"
                       component="label"
-                      disabled={
-                        isLoadingProduct || isLoadingType || isLoadingImg
-                      }
+                      disabled={isLoadingImg}
                     >
                       Chọn ảnh
                       <input
@@ -352,9 +403,7 @@ const ProductControl = () => {
                     <Button
                       variant="contained"
                       onClick={() => setImageArr([])}
-                      disabled={
-                        isLoadingProduct || isLoadingType || isLoadingImg
-                      }
+                      disabled={isLoadingImg}
                     >
                       Đặt lại
                     </Button>
@@ -365,11 +414,11 @@ const ProductControl = () => {
           )}
         </Formik>
         <Alert
-          message={toastMessage}
+          message={toast.message}
           openToast={openToast}
           handleCloseToast={handleCloseToast}
-          color="error"
-          severity="error"
+          color={toast.color}
+          severity={toast.severity}
         />
       </Paper>
     </Container>

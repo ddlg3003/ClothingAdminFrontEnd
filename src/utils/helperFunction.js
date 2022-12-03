@@ -1,7 +1,11 @@
-export const isValidImage = (img) => {
-    const fileSize = img.files[0].size / 1024 / 1024;
+export const isValidImage = function (img) {
+    const fileSize = img.size / 1024 / 1024;
 
-    const fileType = img.files[0].type;
+    const fileType = img.type;
 
-    return fileSize <= 10 && fileType === 'image/jpeg' || fileType === 'image/png' || fileType === 'image/jpg';
+    if(fileSize <= 10) {     
+        if(fileType === 'image/jpeg' || fileType === 'image/png' || fileType === 'image/jpg') 
+            return true;
+    }
+    return false;
 }

@@ -27,9 +27,9 @@ const product = clothing.injectEndpoints({
             }),
         }),
         createTypes: builder.mutation({
-            query: (formData) => {
+            query: ({ id, formData }) => {
                 return {
-                    url: 'admin/type/create',
+                    url: `admin/type/create/${id}`,
                     method: 'POST',
                     body: formData,
                 }
@@ -37,11 +37,9 @@ const product = clothing.injectEndpoints({
             // invalidatesTags: ['Product'],       
         }),
         createProductImage: builder.mutation({
-            query: ({ formData, files }) => {
-                const { id } = formData;
-
+            query: ({ id, files }) => {
                 return {
-                    url: `product/${id}/imageDetail`,
+                    url: `admin/product/${id}/imageDetail`,
                     method: 'POST',
                     body: files,
                 }
