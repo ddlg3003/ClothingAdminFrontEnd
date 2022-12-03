@@ -12,20 +12,33 @@ import {
     TableRow,
     Typography,
 } from '@mui/material';
-import React from 'react';
-// import Pagination from '../Pagination/Pagination';
+import React, { useState } from 'react';
+import Pagination from '../Pagination/Pagination';
 import AddIcon from '@mui/icons-material/Add';
-import { useGetCategoriesQuery } from '../../services/catApis';
+import { useGetPagingCategoriesQuery } from '../../services/catApis';
 import { useGetAllProductsQuery } from '../../services/productApis';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { LIMIT } from '../../utils/globalVariables';
 import useStyles from './styles';
 
 const Categories = () => {
     const classes = useStyles();
     const navigate = useNavigate();
 
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(LIMIT);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, LIMIT));
+        setPage(0);
+    };
+
     const { data: catsData, isFetching: isFetchingCats } =
-        useGetCategoriesQuery();
+        useGetPagingCategoriesQuery({ pageNumber: page + 1, pageSize: rowsPerPage });
     const { data: productsData, isFetching: isFetchingProducts } =
         useGetAllProductsQuery();
 
@@ -36,7 +49,7 @@ const Categories = () => {
             <Paper sx={{ padding: '12px' }}>
                 <div className={classes.categoryInfo}>
                     <Typography variant="h6">
-                        Tổng danh mục hiện có: {catsData?.length}
+                        Tổng danh mục hiện có: {catsData?.categoryMapperList.length}
                     </Typography>
                     <RouterLink to="/categories/add" className={classes.link}>
                         <Button variant="contained" size="medium">
@@ -106,7 +119,7 @@ const Categories = () => {
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            catsData?.map((cat, i) => (
+                            catsData?.categoryMapperList.map((cat, i) => (
                                 <TableRow key={i}>
                                     <TableCell align="left">
                                         <Typography
@@ -162,13 +175,13 @@ const Categories = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            {/* <Pagination
+            <Pagination
                 page={page}
                 handleChangePage={handleChangePage}
                 rowsPerPage={rowsPerPage}
                 handleChangeRowsPerPage={handleChangeRowsPerPage}
-                count={!isFetchingProducts ? productsData?.numberItem : 0}
-            /> */}
+                count={!isFetchingCats ? catsData?.numberItem : 0}
+            />
         </Container>
     );
 };

@@ -6,6 +6,10 @@ const product = clothing.injectEndpoints({
             query: () => 'category/getAll',
             providesTags: ['Category'],
         }),
+        getPagingCategories: builder.query({
+            query: ({ pageNumber, pageSize }) => `category?pageNo=${pageNumber}&pageSize=${pageSize}`,
+            providesTags: ['Category'],
+        }),
         createCategory: builder.mutation({
             query: (formData) => ({
                 url: 'admin/category/createCategory',
@@ -20,5 +24,6 @@ const product = clothing.injectEndpoints({
 
 export const { 
     useGetCategoriesQuery,
+    useGetPagingCategoriesQuery,
     useCreateCategoryMutation,
 } = product;
