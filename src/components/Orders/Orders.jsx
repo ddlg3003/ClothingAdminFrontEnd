@@ -21,7 +21,7 @@ import {
   ERROR_MESSAGES, ORDER_PAGING_LIMIT, ORDER_STATUS
 } from "../../utils/globalVariables";
 import CancelOrderDialog from "./CancelOrderDialog";
-import Pagination from "./Pagination";
+import Pagination from "../Pagination/Pagination";
 
 const Orders = () => {
   // handle scroll position after content load
