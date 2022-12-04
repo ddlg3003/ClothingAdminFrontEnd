@@ -1,9 +1,7 @@
 import {
-  Button,
   Container,
   Link,
   Paper,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -13,12 +11,11 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-// import Pagination from '../Pagination/Pagination';
-import AddIcon from "@mui/icons-material/Add";
-import { useGetCategoriesQuery } from "../../services/catApis";
-import { useGetAllProductsQuery } from "../../services/productApis";
-import { useGetAllUsersQuery } from "../../services/userApis";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import {
+  useBanUserByEmailMutation,
+  useGetAllUsersQuery,
+  useUnbanUserByEmailMutation,
+} from "../../services/userApis";
 import useStyles from "./styles";
 
 const Users = () => {
@@ -26,8 +23,21 @@ const Users = () => {
 
   const { data: usersData, isFetching: isFetchingUsers } =
     useGetAllUsersQuery();
-  console.log(usersData);
 
+  const [banUserByEmail] = useBanUserByEmailMutation();
+  const [unbanUserByEmail] = useUnbanUserByEmailMutation();
+
+  const handleBanClick = async (email) => {
+    try {
+      await banUserByEmail(email);
+    } catch {}
+  };
+
+  const handleUnbanClick = async (email) => {
+    try {
+      await unbanUserByEmail(email);
+    } catch {}
+  };
   return (
     <Container maxWidth="xl" sx={{ padding: "40px 0" }}>
       <Paper sx={{ padding: "12px" }}>
@@ -160,7 +170,21 @@ const Users = () => {
                     </Typography>
                   </TableCell>
                   <TableCell align="left">
-                    <Link sx={{ cursor: "pointer" }}>Hạn chế</Link>
+                    {user?.status === "Active" ? (
+                      <Link
+                        onClick={() => handleBanClick(user?.email)}
+                        sx={{ cursor: "pointer" }}
+                      >
+                        Khóa
+                      </Link>
+                    ) : (
+                      <Link
+                        onClick={() => handleUnbanClick(user?.email)}
+                        sx={{ cursor: "pointer" }}
+                      >
+                        Bỏ khóa
+                      </Link>
+                    )}
                   </TableCell>
                 </TableRow>
               ))
