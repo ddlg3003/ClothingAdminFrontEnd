@@ -19,20 +19,13 @@ import Select from "@mui/material/Select";
 import Link from "@mui/material/Link";
 import { URL_SIDEBAR } from "../../utils/globalVariables";
 import { useNavigate } from "react-router-dom";
-
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-  createData(0, "16 Mar, 2019", "Hữu Đăng", "DONE", "COD", 312000),
-  createData(1, "16 Mar, 2019", "Phi Anh", "PENDING", "COD", 900000),
-  createData(2, "16 Mar, 2019", "Hữu Đăng", "DONE", "COD", 312000),
-  createData(3, "16 Mar, 2019", "Hữu Đăng", "DONE", "COD", 312000),
-];
+import { useGetAllOrdersQuery } from "../../services/orderApis";
 
 const Dashboard = () => {
+  const { data: ordersData, isFetching: isFetchingOrdersData } =
+    useGetAllOrdersQuery();
+  console.log(ordersData);
+
   const navigate = useNavigate();
 
   const [profitBy, setProfitBy] = useState("day");
@@ -109,106 +102,134 @@ const Dashboard = () => {
               <Typography component="p" variant="body1" fontSize={20} mb={1}>
                 Đơn hàng gần đây
               </Typography>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>
-                      <Typography
-                        component="p"
-                        variant="body1"
-                        fontWeight="bold"
-                        fontSize={18}
-                      >
-                        Thời gian
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography
-                        component="p"
-                        variant="body1"
-                        fontWeight="bold"
-                        fontSize={18}
-                      >
-                        Tên khách
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography
-                        component="p"
-                        variant="body1"
-                        fontWeight="bold"
-                        fontSize={18}
-                      >
-                        Trạng thái đơn
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography
-                        component="p"
-                        variant="body1"
-                        fontWeight="bold"
-                        fontSize={18}
-                      >
-                        Phương thức thanh toán
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="right">
-                      <Typography
-                        component="p"
-                        variant="body1"
-                        fontWeight="bold"
-                        fontSize={18}
-                      >
-                        Số tiền
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <TableRow key={row.id}>
-                      <TableCell>
-                        <Typography component="p" variant="body1" fontSize={18}>
-                          {row.date}
-                        </Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography component="p" variant="body1" fontSize={18}>
-                          {row.name}
-                        </Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography component="p" variant="body1" fontSize={18}>
-                          {row.shipTo}
-                        </Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography component="p" variant="body1" fontSize={18}>
-                          {row.paymentMethod}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Typography component="p" variant="body1" fontSize={18}>
-                          {Intl.NumberFormat("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          }).format(row.amount)}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-              <Link
-                color="primary"
-                href="#"
-                onClick={() => {
-                  navigate(URL_SIDEBAR[3]);
-                }}
-                sx={{ mt: 3 }}
-              >
-                Xem thêm
-              </Link>
+              {isFetchingOrdersData ? (
+                <Typography component="p" variant="body1" fontSize={20} mb={1}>
+                  Đang tải đơn hàng...
+                </Typography>
+              ) : (
+                <>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <Typography
+                            component="p"
+                            variant="body1"
+                            fontWeight="bold"
+                            fontSize={18}
+                          >
+                            Thời gian
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography
+                            component="p"
+                            variant="body1"
+                            fontWeight="bold"
+                            fontSize={18}
+                          >
+                            Tên khách
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography
+                            component="p"
+                            variant="body1"
+                            fontWeight="bold"
+                            fontSize={18}
+                          >
+                            Trạng thái đơn
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography
+                            component="p"
+                            variant="body1"
+                            fontWeight="bold"
+                            fontSize={18}
+                          >
+                            Phương thức thanh toán
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Typography
+                            component="p"
+                            variant="body1"
+                            fontWeight="bold"
+                            fontSize={18}
+                          >
+                            Số tiền
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {ordersData?.slice(0, 5).map((order) => (
+                        <TableRow key={order?.id}>
+                          <TableCell>
+                            <Typography
+                              component="p"
+                              variant="body1"
+                              fontSize={18}
+                            >
+                              {order?.ordDate}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography
+                              component="p"
+                              variant="body1"
+                              fontSize={18}
+                            >
+                              {order?.ordName}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography
+                              component="p"
+                              variant="body1"
+                              fontSize={18}
+                            >
+                              {order?.ordStatus}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography
+                              component="p"
+                              variant="body1"
+                              fontSize={18}
+                            >
+                              {order?.ordPayment}
+                            </Typography>
+                          </TableCell>
+                          <TableCell align="right">
+                            <Typography
+                              component="p"
+                              variant="body1"
+                              fontSize={18}
+                            >
+                              {Intl.NumberFormat("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                              }).format(order?.ordTotalPrice)}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                  <Link
+                    color="primary"
+                    href="#"
+                    onClick={() => {
+                      navigate(URL_SIDEBAR[3]);
+                    }}
+                    sx={{ mt: 3 }}
+                  >
+                    Xem thêm
+                  </Link>
+                </>
+              )}
             </Paper>
           </Grid>
         </Grid>
