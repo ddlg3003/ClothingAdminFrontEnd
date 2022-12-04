@@ -1,5 +1,5 @@
 export const BLACK_LOGO =
-  "https://fontmeme.com/permalink/221015/466d5aeb7170191e34604da1b59fb9b2.png";
+  "https://res.cloudinary.com/dgyqhnavx/image/upload/v1670131428/samples/ecommerce/Clothing%20assets/Black_qvloqn.png";
 
 export const BASE_API_URL = "http://localhost:8099";
 
