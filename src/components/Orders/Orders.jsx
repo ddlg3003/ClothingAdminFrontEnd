@@ -409,7 +409,7 @@ const Orders = () => {
                             </TableRow>
                           ))}
                           {orderIndex !==
-                          ordersData.orderMapperList.length - 1 ? (
+                          ordersData.orderMapperList?.length - 1 ? (
                             <TableRow
                               sx={{
                                 backgroundColor: "#F5F5F5",
@@ -714,7 +714,11 @@ const Orders = () => {
                               </TableRow>
                             ))}
                             {orderIndex !==
-                            ordersData.orderMapperList.length - 1 ? (
+                            ordersData.orderMapperList?.filter(
+                              (order) =>
+                                order.ordStatus === ORDER_STATUS[0].status
+                            )?.length -
+                              1 ? (
                               <TableRow
                                 sx={{
                                   backgroundColor: "#F5F5F5",
@@ -1019,7 +1023,11 @@ const Orders = () => {
                               </TableRow>
                             ))}
                             {orderIndex !==
-                            ordersData.orderMapperList.length - 1 ? (
+                            ordersData.orderMapperList?.filter(
+                              (order) =>
+                                order.ordStatus === ORDER_STATUS[1].status
+                            )?.length -
+                              1 ? (
                               <TableRow
                                 sx={{
                                   backgroundColor: "#F5F5F5",
@@ -1324,7 +1332,11 @@ const Orders = () => {
                               </TableRow>
                             ))}
                             {orderIndex !==
-                            ordersData.orderMapperList.length - 1 ? (
+                            ordersData.orderMapperList?.filter(
+                              (order) =>
+                                order.ordStatus === ORDER_STATUS[2].status
+                            )?.length -
+                              1 ? (
                               <TableRow
                                 sx={{
                                   backgroundColor: "#F5F5F5",
@@ -1629,7 +1641,11 @@ const Orders = () => {
                               </TableRow>
                             ))}
                             {orderIndex !==
-                            ordersData.orderMapperList.length - 1 ? (
+                            ordersData.orderMapperList?.filter(
+                              (order) =>
+                                order.ordStatus === ORDER_STATUS[3].status
+                            )?.length -
+                              1 ? (
                               <TableRow
                                 sx={{
                                   backgroundColor: "#F5F5F5",
