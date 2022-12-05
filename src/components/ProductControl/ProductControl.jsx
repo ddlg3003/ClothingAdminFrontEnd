@@ -214,7 +214,7 @@ const ProductControl = () => {
         <Typography variant="h5" mb={4}>
           {id ? 'Sửa' : 'Thêm'} sản phẩm {id ? `(Mã: ${product?.id})` : ''}
         </Typography>
-        {id && isFetchingProduct && isFetchingTypes ? (
+        {id && isFetchingProduct ? (
           <Box display="flex" justifyContent="center">
             <CircularProgress size="6rem" />
           </Box>
