@@ -106,7 +106,7 @@ const Categories = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {isFetchingCats && isFetchingProducts ? (
+                        {isFetchingCats || isFetchingProducts ? (
                             <TableRow>
                                 <TableCell colSpan={4}>
                                     <Typography

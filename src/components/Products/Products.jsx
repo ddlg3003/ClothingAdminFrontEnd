@@ -141,9 +141,9 @@ const Products = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {isFetchingProducts && isFetchingTypes ? (
+                        {isFetchingProducts || isFetchingTypes ? (
                             <TableRow>
-                                <TableCell colSpan={4}>
+                                <TableCell colSpan={7}>
                                     <Typography
                                         variant="body1"
                                         fontSize={16}
