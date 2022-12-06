@@ -17,21 +17,26 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Link from "@mui/material/Link";
-import { URL_SIDEBAR } from "../../utils/globalVariables";
+import { REPORT_CRITERIA, URL_SIDEBAR } from "../../utils/globalVariables";
 import { useNavigate } from "react-router-dom";
 import { useGetAllOrdersQuery } from "../../services/orderApis";
+import { useGetProfitByCriteriaQuery } from "../../services/reportApis";
 
 const Dashboard = () => {
+  const [reportCriteria, setReportCriteria] = useState(REPORT_CRITERIA[0]);
+  // get profit by timeline
+  const { data: profit, isFetching: isFetchingProfit } =
+    useGetProfitByCriteriaQuery(reportCriteria);
+
   const { data: ordersData, isFetching: isFetchingOrdersData } =
     useGetAllOrdersQuery();
   console.log(ordersData);
 
   const navigate = useNavigate();
 
-  const [profitBy, setProfitBy] = useState("day");
 
   const handleChangeProfitBy = (e) => {
-    setProfitBy(e.target.value);
+    setReportCriteria(e.target.value);
   };
 
   return (
@@ -74,25 +79,30 @@ const Dashboard = () => {
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={profitBy}
+                    value={reportCriteria}
                     label="Age"
                     onChange={(e) => handleChangeProfitBy(e)}
                   >
-                    <MenuItem value="day">Ngày</MenuItem>
-                    <MenuItem value="month">Tháng</MenuItem>
-                    <MenuItem value="year">Năm</MenuItem>
+                    <MenuItem value={REPORT_CRITERIA[0]}>Ngày</MenuItem>
+                    <MenuItem value={REPORT_CRITERIA[1]}>Tháng</MenuItem>
+                    <MenuItem value={REPORT_CRITERIA[2]}>Năm</MenuItem>
                   </Select>
                 </FormControl>
               </Stack>
-
-              <Typography component="p" variant="h4" mt={1}>
-                {Intl.NumberFormat("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(99450000)}
-              </Typography>
+              {isFetchingProfit ? (
+                <Typography component="p" variant="h4" mt={1}>
+                  Đang tải...
+                </Typography>
+              ) : (
+                <Typography component="p" variant="h4" mt={1}>
+                  {Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(profit)}
+                </Typography>
+              )}
               {/* <Typography color="text.secondary" sx={{ flex: 1 }}>
-                on 15 March, 2019
+                {new Date.getDate()}
               </Typography> */}
             </Paper>
           </Grid>

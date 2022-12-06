@@ -62,3 +62,6 @@ export const COLOR_LIST = [
 export const SIZE_LIST = [1, 2, 3, 4, 5];
 
 export const ERROR_MESSAGES = ["Không đủ số lượng sản phẩm trong kho!"];
+
+export const REPORT_CRITERIA = ["day", "month", "year"];
+
