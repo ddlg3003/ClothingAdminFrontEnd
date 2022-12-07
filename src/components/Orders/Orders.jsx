@@ -118,12 +118,15 @@ const Orders = () => {
     isFetching: isFetchingOrdersDataPagination,
   } = useGetAllOrdersQuery();
   const getOrderListLengthByStatus = (status) => {
+    if (isFetchingOrdersDataPagination) {
+      return 0;
+    }
     if (status === "Active") {
       return ordersData?.numberItem;
     }
 
     return ordersDataPagination?.filter((order) => order?.ordStatus === status)
-      .length;
+      ?.length;
   };
 
   return (

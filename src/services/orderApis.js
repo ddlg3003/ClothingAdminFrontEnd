@@ -4,6 +4,7 @@ const product = clothing.injectEndpoints({
     endpoints: (builder) => ({
         getAllOrders: builder.query({
             query: () => 'admin/orders/getAll',
+            providesTags: ['Order'],
         }),
         getOrders: builder.query({
             query: ({ pageNumber, pageSize, status }) =>

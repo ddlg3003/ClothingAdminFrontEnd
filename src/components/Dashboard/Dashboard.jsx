@@ -41,7 +41,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Container maxWidth="lg" sx={{ paddingTop: "40px" }}>
+      <Container maxWidth="xl" sx={{ paddingTop: "40px" }}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8} lg={9}>
             <Paper
