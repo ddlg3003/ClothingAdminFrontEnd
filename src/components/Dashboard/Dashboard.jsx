@@ -250,7 +250,7 @@ const Dashboard = () => {
           align="center"
         >
           {"Copyright © "}
-          <Link color="inherit" href="https://mui.com/">
+          <Link color="inherit" href="http://localhost:3000/">
             ADNCloth
           </Link>{" "}
           {new Date().getFullYear()}

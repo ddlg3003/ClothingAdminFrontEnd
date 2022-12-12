@@ -65,3 +65,7 @@ export const ERROR_MESSAGES = ["Không đủ số lượng sản phẩm trong kh
 
 export const REPORT_CRITERIA = ["day", "month", "year"];
 
+export const CATEGORY_STATUS_ACTIVE = "Active";
+export const CATEGORY_STATUS_DISABLE = "Disable";
+
+

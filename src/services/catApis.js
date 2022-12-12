@@ -18,6 +18,13 @@ const product = clothing.injectEndpoints({
             }),
             invalidatesTags: ['Category'],
         }),
+        deleteCategory: builder.mutation({
+            query: (catId) => ({
+                url: `admin/category/${catId}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Category'],
+        }),
     }),
     overrideExisting: false,
 });
@@ -26,4 +33,5 @@ export const {
     useGetCategoriesQuery,
     useGetPagingCategoriesQuery,
     useCreateCategoryMutation,
+    useDeleteCategoryMutation,
 } = product;
