@@ -232,7 +232,7 @@ const Orders = () => {
                   <TableBody>
                     {isFetchingOrders ? (
                       <TableRow>
-                        <TableCell colSpan={4}>
+                        <TableCell colSpan={6}>
                           <Typography
                             variant="body1"
                             fontSize={16}
