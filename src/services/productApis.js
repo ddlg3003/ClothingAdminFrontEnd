@@ -12,12 +12,15 @@ const product = clothing.injectEndpoints({
         }),
         getProduct: builder.query({
             query: (id) => `product/${id}`,
+            providesTags: ['Product'],
         }),
         getTypes: builder.query({
             query: () => 'admin/type/getAll',
+            providesTags: ['Type'],
         }),
         getProductTypes: builder.query({
             query: (productId) => `type/product/${productId}`,
+            providesTags: ['Type'],
         }),
         createProduct: builder.mutation({
             query: (formData) => ({
@@ -49,6 +52,21 @@ const product = clothing.injectEndpoints({
         getImagesList: builder.query({
             query: (id) => `product/${id}/imageDetail`,
         }),
+        updateProduct: builder.mutation({
+            query: ({ id, formData }) => ({
+                url: `admin/product/${id}`,
+                method: 'PUT',
+                body: formData,
+            }),
+        }),
+        updateTypes: builder.mutation({
+            query: ({ productId, formData }) => ({
+                url: `admin/type/${productId}`,
+                method: 'PUT',
+                body: formData,
+            }),
+            invalidatesTags: ['Product', 'Type'],
+        })
     }),
     overrideExisting: false,
 });
@@ -63,4 +81,6 @@ export const {
     useCreateTypesMutation,
     useCreateProductImageMutation,
     useGetImagesListQuery,
+    useUpdateProductMutation,
+    useUpdateTypesMutation,
 } = product;

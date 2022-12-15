@@ -25,6 +25,8 @@ import {
   useGetProductQuery,
   useGetProductTypesQuery,
   useGetImagesListQuery,
+  useUpdateProductMutation,
+  useUpdateTypesMutation,
 } from '../../services/productApis';
 import { COLOR_LIST, SIZE_LIST } from '../../utils/globalVariables';
 import * as yup from 'yup';
@@ -93,13 +95,18 @@ const ProductControl = () => {
   // Image stuff
   const [imageArr, setImageArr] = useState([]);
 
-  const { data: imagesListData, isFetching: isFetchingImagesList } = useGetImagesListQuery(id, { skip: !id });
+  const { data: imagesListData, isFetching: isFetchingImagesList } =
+    useGetImagesListQuery(id, { skip: !id });
 
+  // Set image data when in update mode
   useEffect(() => {
-    if(imagesListData?.length > 0) {
-      const newImagesList = imagesListData?.map(({ image }) => ({ content: image, file: image })); 
+    if (imagesListData?.length > 0) {
+      const newImagesList = imagesListData?.map(({ image }) => ({
+        content: image,
+        file: '',
+      }));
       setImageArr(newImagesList);
-    } 
+    }
   }, [isFetchingImagesList]);
 
   const handleChooseImg = (e) => {
@@ -135,23 +142,38 @@ const ProductControl = () => {
     useCreateProductImageMutation();
 
   // Get product info for updating apis
-  const { data: product, isFetching: isFetchingProduct } = useGetProductQuery(id, { skip: !id });
+  const { data: product, isFetching: isFetchingProduct } = useGetProductQuery(
+    id,
+    { skip: !id }
+  );
 
-  const { data: productTypes, isFetching: isFetchingTypes } = useGetProductTypesQuery(id, { skip: !id });
+  const { data: productTypes, isFetching: isFetchingTypes } =
+    useGetProductTypesQuery(id, { skip: !id });
+
+  // Update product apis
+  const [updateProduct] = useUpdateProductMutation();
+  const [updateTypes] = useUpdateTypesMutation();
 
   // Map types to get new types array
-  const newTypes = productTypes?.map(({ color, size, quantity, price }) => ({ color, size, quantity, price })); 
+  const newTypes = productTypes?.map(({ color, size, quantity, price }) => ({
+    color,
+    size,
+    quantity,
+    price,
+  }));
 
   // Form init, when in edit mode we will set product's field to formInit or else empty
   const formInit = {
     name: product?.name ? product?.name : '',
     description: product?.description ? product?.description : '',
     category_id: product?.categoryId ? product?.categoryId : '',
-    types: productTypes ? newTypes : [{ color: '', size: '', quantity: '', price: '' }],
+    types: productTypes
+      ? newTypes
+      : [{ color: '', size: '', quantity: '', price: '' }],
   };
 
   // Create product submit function
-  const submit = async (values, { resetForm }) => {
+  const submitCreate = async (values, { resetForm }) => {
     const { types, ...productData } = values;
 
     console.log(imageArr);
@@ -208,13 +230,61 @@ const ProductControl = () => {
     }
   };
 
+  // Update product submit function
+  const submitUpdate = async (values) => {
+    const { types, ...productData } = values;
+
+    // Trans to string
+    const transTypes = types.map(({ quantity, size, color, price }) => ({
+      quantity: quantity.toString(),
+      size: size.toString(),
+      color,
+      price: price.toString(),
+    }));
+
+    // Update field
+    try {
+      if (imageArr.find((img) => img.file === ''))
+        await updateProduct({ id, formData: productData });
+
+      await updateTypes({ productId: id, formData: transTypes });
+
+      // Check if file content exist for 5 pics
+      if (!isFetchingImagesList && !imageArr.find((img) => img.file === '')) {
+        if (imageArr.length === 5) {
+          const files = new FormData();
+          imageArr.forEach((img) => files.append('image', img.file));
+
+          // Call create images api
+          await createProductImage({ id, files });
+        }
+      }
+
+      setToast((toast) => ({
+        ...toast,
+        color: 'success',
+        severity: 'success',
+        message: 'Cập nhật sản phẩm thành công',
+      }));
+    } catch (error) {
+      setToast((toast) => ({
+        ...toast,
+        color: 'error',
+        severity: 'error',
+        message: 'Đã có lỗi xảy ra vui lòng thử lại',
+      }));
+    }
+
+    setOpenToast(true);
+  };
+
   return (
     <Container maxWidth="xl" sx={{ padding: '40px 0' }}>
       <Paper sx={{ padding: '24px 8px 24px 48px' }}>
         <Typography variant="h5" mb={4}>
-          {id ? 'Sửa' : 'Thêm'} sản phẩm {id ? `(Mã: ${product?.id})` : ''}
+          {id ? 'Sửa' : 'Thêm'} sản phẩm {product ? `(Mã: ${product?.id})` : ''}
         </Typography>
-        {id && isFetchingProduct ? (
+        {isFetchingProduct ? (
           <Box display="flex" justifyContent="center">
             <CircularProgress size="6rem" />
           </Box>
@@ -222,7 +292,7 @@ const ProductControl = () => {
           <Formik
             initialValues={formInit}
             enableReinitialize={true}
-            onSubmit={submit}
+            onSubmit={!product ? submitCreate : submitUpdate}
             validationSchema={validationSchema}
           >
             {({ values, handleChange, handleSubmit, touched, errors }) => (
@@ -255,11 +325,11 @@ const ProductControl = () => {
                           required
                         >
                           {isFetchingCats ? (
-                            <MenuItem>Đang tải...</MenuItem>
+                            <MenuItem value="">Đang tải...</MenuItem>
                           ) : (
                             catsData?.map((cat) => (
-                              <MenuItem key={cat.name} value={cat.id}>
-                                {cat.name}
+                              <MenuItem key={cat?.name} value={cat?.id}>
+                                {cat?.name}
                               </MenuItem>
                             ))
                           )}
@@ -434,6 +504,7 @@ const ProductControl = () => {
                       sx={{ marginTop: '12px' }}
                       spacing={1}
                       direction="row"
+                      alignItems="center"
                     >
                       <Button
                         variant="contained"
@@ -457,6 +528,11 @@ const ProductControl = () => {
                       >
                         Đặt lại
                       </Button>
+                      {product ? (
+                        <Typography variant="subtitle1">
+                          {'(Đặt lại và chọn đủ 5 ảnh để cập nhật)'}
+                        </Typography>
+                      ) : (<></>)}
                     </Stack>
                   </Grid>
                 </Grid>

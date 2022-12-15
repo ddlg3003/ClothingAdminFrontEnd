@@ -4,6 +4,6 @@ import baseQuery from './serviceConfig';
 export const clothing = createApi({
     reducerPath: 'clothing',
     baseQuery: fetchBaseQuery(baseQuery),
-    tagTypes: ['Product', 'Category', 'Order', 'User'],
+    tagTypes: ['Product', 'Category', 'Order', 'User', 'Type'],
     endpoints: () => ({}),
 });
