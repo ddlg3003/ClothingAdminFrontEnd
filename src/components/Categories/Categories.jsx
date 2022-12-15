@@ -17,7 +17,7 @@ import React, { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useGetPagingCategoriesQuery, useDeleteCategoryMutation } from "../../services/catApis";
 import {
-    CATEGORY_STATUS_ACTIVE, LIMIT
+    STATUS_ACTIVE, LIMIT
 } from "../../utils/globalVariables";
 import Pagination from "../Pagination/Pagination";
 import useStyles from "./styles";
@@ -150,7 +150,7 @@ const Categories = () => {
                       </Link>
 
                       <Link sx={{ cursor: "pointer" }} onClick={() => handleClickChangeCategoryStatus(cat?.id)}>
-                        {cat?.status === CATEGORY_STATUS_ACTIVE
+                        {cat?.status === STATUS_ACTIVE
                           ? "Ẩn"
                           : "Bỏ ẩn"}
                       </Link>

@@ -172,11 +172,18 @@ const ProductControl = () => {
       : [{ color: '', size: '', quantity: '', price: '' }],
   };
 
-  // Create product submit function
-  const submitCreate = async (values, { resetForm }) => {
-    const { types, ...productData } = values;
+  // Types transform function
+  const typesTransformer = (types) => {
+    return types.map((type) => ({
+      ...type,
+      size: type.size.toString(),
+      price: type.price.toString(),
+      quantity: type.quantity.toString(),
+    }))
+  }
 
-    console.log(imageArr);
+  // Create product submit function
+  const submitCreate = async ({ types, ...productData }, { resetForm }) => {
     if (imageArr.length === 5) {
       // Create product main field
       try {
@@ -185,14 +192,7 @@ const ProductControl = () => {
         // Create types based on product
         const { id } = newProduct;
 
-        const newTypes = types.map((type) => ({
-          ...type,
-          size: type.size.toString(),
-          price: type.price.toString(),
-          quantity: type.quantity.toString(),
-        }));
-
-        await createTypes({ id, formData: newTypes });
+        await createTypes({ id, formData: typesTransformer(types) });
 
         // Upload images for product
         const files = new FormData();
@@ -200,6 +200,7 @@ const ProductControl = () => {
         await createProductImage({ id, files });
 
         setOpenToast(true);
+
         setToast((toast) => ({
           ...toast,
           color: 'success',
@@ -212,6 +213,7 @@ const ProductControl = () => {
         setImageArr([]);
       } catch (error) {
         setOpenToast(true);
+
         setToast((toast) => ({
           ...toast,
           color: 'error',
@@ -221,6 +223,7 @@ const ProductControl = () => {
       }
     } else {
       setOpenToast(true);
+
       setToast((toast) => ({
         ...toast,
         color: 'error',
@@ -231,23 +234,12 @@ const ProductControl = () => {
   };
 
   // Update product submit function
-  const submitUpdate = async (values) => {
-    const { types, ...productData } = values;
-
-    // Trans to string
-    const transTypes = types.map(({ quantity, size, color, price }) => ({
-      quantity: quantity.toString(),
-      size: size.toString(),
-      color,
-      price: price.toString(),
-    }));
-
+  const submitUpdate = async ({ types, ...productData }) => {
     // Update field
     try {
-      if (imageArr.find((img) => img.file === ''))
-        await updateProduct({ id, formData: productData });
+      await updateProduct({ id, formData: productData });
 
-      await updateTypes({ productId: id, formData: transTypes });
+      await updateTypes({ productId: id, formData: typesTransformer(types) });
 
       // Check if file content exist for 5 pics
       if (!isFetchingImagesList && !imageArr.find((img) => img.file === '')) {
@@ -532,7 +524,9 @@ const ProductControl = () => {
                         <Typography variant="subtitle1">
                           {'(Đặt lại và chọn đủ 5 ảnh để cập nhật)'}
                         </Typography>
-                      ) : (<></>)}
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Grid>
                 </Grid>
