@@ -46,6 +46,14 @@ export const COLOR_LIST = [
     name: 'Đen',
   },
   {
+    color: '8c8c8c',
+    name: 'Xám',
+  },
+  {
+    color: 'd9b99b',
+    name: 'Be',
+  },
+  {
     color: '186287',
     name: 'Xanh nước nhạt',
   },

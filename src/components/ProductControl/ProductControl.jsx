@@ -78,7 +78,7 @@ const ProductControl = () => {
       yup.object().shape({
         quantity: yup
           .number('Nhập số lượng')
-          .min(1, 'Cần lớn hơn 0')
+          .min(0, 'Từ 0 trở lên')
           .max(1000000000, 'Số quá lớn')
           .required('Bắt buộc'),
         price: yup
