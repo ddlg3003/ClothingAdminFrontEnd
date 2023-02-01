@@ -1,24 +1,25 @@
 import AddIcon from "@mui/icons-material/Add";
 import {
-    Button,
-    Container,
-    Link,
-    Paper,
-    Stack,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography
+  Button,
+  Container,
+  Link,
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { useGetPagingCategoriesQuery, useDeleteCategoryMutation } from "../../services/catApis";
 import {
-    STATUS_ACTIVE, LIMIT
-} from "../../utils/globalVariables";
+  useGetPagingCategoriesQuery,
+  useDeleteCategoryMutation,
+} from "../../services/catApis";
+import { STATUS_ACTIVE, LIMIT } from "../../utils/globalVariables";
 import Pagination from "../Pagination/Pagination";
 import useStyles from "./styles";
 
@@ -50,7 +51,7 @@ const Categories = () => {
 
   const handleClickChangeCategoryStatus = async (catId) => {
     await deleteCategory(catId);
-  }
+  };
 
   return (
     <Container maxWidth="xl" sx={{ padding: "40px 0" }}>
@@ -149,10 +150,11 @@ const Categories = () => {
                         Chỉnh sửa
                       </Link>
 
-                      <Link sx={{ cursor: "pointer" }} onClick={() => handleClickChangeCategoryStatus(cat?.id)}>
-                        {cat?.status === STATUS_ACTIVE
-                          ? "Ẩn"
-                          : "Bỏ ẩn"}
+                      <Link
+                        sx={{ cursor: "pointer" }}
+                        onClick={() => handleClickChangeCategoryStatus(cat?.id)}
+                      >
+                        {cat?.status === STATUS_ACTIVE ? "Ẩn" : "Bỏ ẩn"}
                       </Link>
                     </Stack>
                   </TableCell>

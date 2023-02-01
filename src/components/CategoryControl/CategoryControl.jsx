@@ -50,19 +50,17 @@ const CategoryControl = () => {
     try {
       if (categoryData) {
         await updateCategory({ catId: id, formData: values });
-      }
-      else {
+      } else {
         await createCategory(values);
         values.name = "";
       }
-      
 
       setOpenToast(true);
       setToast((toast) => ({
         ...toast,
         color: "success",
         severity: "success",
-        message: `${categoryData ? 'Sửa' : 'Thêm'} danh mục thành công`,
+        message: `${categoryData ? "Sửa" : "Thêm"} danh mục thành công`,
       }));
     } catch (error) {
       setOpenToast(true);
@@ -73,7 +71,7 @@ const CategoryControl = () => {
         message: "Đã có lỗi xảy ra vui lòng thử lại sau",
       }));
     }
-  }
+  };
 
   return (
     <Container maxWidth="lg" sx={{ padding: "40px 0" }}>

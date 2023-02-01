@@ -4,18 +4,22 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 
-const CancelOrderDialog = ({ onClose, open, orderId, handleConfirmCancelOrder }) => {
-
+const CancelOrderDialog = ({
+  onClose,
+  open,
+  orderId,
+  handleConfirmCancelOrder,
+}) => {
   const handleClose = () => {
     onClose();
   };
 
-//   const [deleteAddress] = useDeleteAddressMutation();
+  //   const [deleteAddress] = useDeleteAddressMutation();
 
-//   const handleConfirmClick = async () => {
-//     await deleteAddress(id);
-//     onClose();
-//   };
+  //   const handleConfirmClick = async () => {
+  //     await deleteAddress(id);
+  //     onClose();
+  //   };
 
   return (
     <div>
@@ -28,10 +32,7 @@ const CancelOrderDialog = ({ onClose, open, orderId, handleConfirmCancelOrder })
           {"Xác nhận hủy đơn hàng?"}
         </DialogTitle>
         <DialogActions>
-          <Button
-            sx={{ mb: 1 }}
-            onClick={handleClose}
-          >
+          <Button sx={{ mb: 1 }} onClick={handleClose}>
             Trở lại
           </Button>
           <Button

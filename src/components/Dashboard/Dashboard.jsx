@@ -34,7 +34,6 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
 
-
   const handleChangeProfitBy = (e) => {
     setReportCriteria(e.target.value);
   };

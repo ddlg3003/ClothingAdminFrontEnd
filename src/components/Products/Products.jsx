@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Button,
   Container,
@@ -12,17 +12,17 @@ import {
   TableRow,
   Typography,
   Stack,
-} from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import {
   useGetProductsQuery,
   useGetTypesQuery,
   useHideProductMutation,
-} from '../../services/productApis';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import Pagination from '../Pagination/Pagination';
-import { LIMIT, STATUS_ACTIVE } from '../../utils/globalVariables';
-import useStyles from './styles';
+} from "../../services/productApis";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import Pagination from "../Pagination/Pagination";
+import { LIMIT, STATUS_ACTIVE } from "../../utils/globalVariables";
+import useStyles from "./styles";
 
 const Products = () => {
   const classes = useStyles();
@@ -45,7 +45,7 @@ const Products = () => {
     useGetProductsQuery({
       pageNumber: page + 1,
       pageSize: rowsPerPage,
-      cat: '',
+      cat: "",
     });
   const { data: typesData, isFetching: isFetchingTypes } = useGetTypesQuery();
 
@@ -60,15 +60,15 @@ const Products = () => {
 
   const handleClickChangeProductStatus = async (id) => {
     try {
-        await hideProduct(id);
+      await hideProduct(id);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-  }
+  };
 
   return (
-    <Container maxWidth="xl" sx={{ padding: '40px 0' }}>
-      <Paper sx={{ padding: '12px' }}>
+    <Container maxWidth="xl" sx={{ padding: "40px 0" }}>
+      <Paper sx={{ padding: "12px" }}>
         <div className={classes.productInfo}>
           <Typography variant="h6">
             Tổng sản phẩm hiện có: {productsData?.numberItem}
@@ -81,7 +81,7 @@ const Products = () => {
           </RouterLink>
         </div>
       </Paper>
-      <TableContainer component={Paper} sx={{ marginTop: '20px' }}>
+      <TableContainer component={Paper} sx={{ marginTop: "20px" }}>
         <Table sx={{ minWidth: 650 }} aria-label="product">
           <TableHead>
             <TableRow>
@@ -184,9 +184,9 @@ const Products = () => {
                   </TableCell>
                   <TableCell align="left">
                     <Typography component="p" variant="body1" fontSize={16}>
-                      {Intl.NumberFormat('vi-VN', {
-                        style: 'currency',
-                        currency: 'VND',
+                      {Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
                       }).format(
                         typesAvgPrice(
                           typesData?.filter(
@@ -218,17 +218,17 @@ const Products = () => {
                         onClick={() =>
                           navigate(`/products/edit/${product?.id}`)
                         }
-                        sx={{ cursor: 'pointer' }}
+                        sx={{ cursor: "pointer" }}
                       >
                         Chỉnh sửa
                       </Link>
                       <Link
-                        sx={{ cursor: 'pointer' }}
-                        onClick={() => handleClickChangeProductStatus(product?.id)}
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          handleClickChangeProductStatus(product?.id)
+                        }
                       >
-                        {product?.status === STATUS_ACTIVE
-                          ? 'Ẩn'
-                          : 'Bỏ ẩn'}
+                        {product?.status === STATUS_ACTIVE ? "Ẩn" : "Bỏ ẩn"}
                       </Link>
                     </Stack>
                   </TableCell>

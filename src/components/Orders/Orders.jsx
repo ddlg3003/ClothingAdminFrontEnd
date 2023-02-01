@@ -25,7 +25,7 @@ import {
   ERROR_MESSAGES,
   ORDER_PAGING_LIMIT,
   ORDER_STATUS,
-  COLOR_LIST
+  COLOR_LIST,
 } from "../../utils/globalVariables";
 import CancelOrderDialog from "./CancelOrderDialog";
 import Pagination from "../Pagination/Pagination";
@@ -103,7 +103,7 @@ const Orders = () => {
       .unwrap()
       .then()
       .catch((error) => {
-        if (error.originalStatus === 409) 
+        if (error.originalStatus === 409)
           // alert(ERROR_MESSAGES[0]);
           alert(error?.data);
       });
@@ -417,7 +417,13 @@ const Orders = () => {
                                     color="text.secondary"
                                     maxWidth={200}
                                   >
-                                    Màu: {COLOR_LIST.find(colorItem => colorItem.color === transaction?.color).name}
+                                    Màu:{" "}
+                                    {
+                                      COLOR_LIST.find(
+                                        (colorItem) =>
+                                          colorItem.color === transaction?.color
+                                      ).name
+                                    }
                                   </Typography>
                                   <Typography
                                     fontSize={16}

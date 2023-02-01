@@ -1,7 +1,15 @@
-import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, Tooltip } from 'recharts';
-import { useGetChartStatisticQuery } from '../../services/reportApis';
+import * as React from "react";
+import { useTheme } from "@mui/material/styles";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Label,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
+import { useGetChartStatisticQuery } from "../../services/reportApis";
 
 export default function Chart() {
   const { data: chartData, isFetching } = useGetChartStatisticQuery();
@@ -12,7 +20,6 @@ export default function Chart() {
     <React.Fragment>
       <ResponsiveContainer>
         <LineChart
-        
           data={isFetching ? [] : chartData}
           margin={{
             top: 16,
@@ -30,18 +37,18 @@ export default function Chart() {
             stroke={theme.palette.text.secondary}
             style={theme.typography.body2}
           >
-              <Label
-                angle={270}
-                position="left"
-                style={{
-                  textAnchor: 'middle',
-                  fill: theme.palette.text.primary,
-                  ...theme.typography.body1,
-                }}
-                offset={15}
-              >
-                Doanh số (VND)
-              </Label>
+            <Label
+              angle={270}
+              position="left"
+              style={{
+                textAnchor: "middle",
+                fill: theme.palette.text.primary,
+                ...theme.typography.body1,
+              }}
+              offset={15}
+            >
+              Doanh số (VND)
+            </Label>
           </YAxis>
           <Tooltip />
 

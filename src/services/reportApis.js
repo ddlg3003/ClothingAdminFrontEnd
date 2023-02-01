@@ -1,18 +1,16 @@
-import { clothing } from './clothingBaseApis';
+import { clothing } from "./clothingBaseApis";
 
 const product = clothing.injectEndpoints({
-    endpoints: (builder) => ({
-        getProfitByCriteria: builder.query({
-            query: (criteria) => `admin/statistic/${criteria}`,
-        }),
-        getChartStatistic: builder.query({
-            query: () => `admin/statistic/chart`,
-        }),
+  endpoints: (builder) => ({
+    getProfitByCriteria: builder.query({
+      query: (criteria) => `admin/statistic/${criteria}`,
     }),
-    overrideExisting: false,
+    getChartStatistic: builder.query({
+      query: () => `admin/statistic/chart`,
+    }),
+  }),
+  overrideExisting: false,
 });
 
-export const {
-    useGetProfitByCriteriaQuery,
-    useGetChartStatisticQuery
-} = product;
+export const { useGetProfitByCriteriaQuery, useGetChartStatisticQuery } =
+  product;

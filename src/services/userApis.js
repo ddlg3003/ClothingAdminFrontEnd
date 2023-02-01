@@ -26,4 +26,8 @@ const product = clothing.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetAllUsersQuery, useBanUserByEmailMutation, useUnbanUserByEmailMutation } = product;
+export const {
+  useGetAllUsersQuery,
+  useBanUserByEmailMutation,
+  useUnbanUserByEmailMutation,
+} = product;

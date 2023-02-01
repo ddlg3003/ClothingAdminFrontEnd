@@ -38,32 +38,32 @@ export const ORDER_PAGING_LIMIT = 5;
 
 export const COLOR_LIST = [
   {
-    color: 'f1f1f1',
-    name: 'Trắng',
+    color: "f1f1f1",
+    name: "Trắng",
   },
   {
-    color: '000',
-    name: 'Đen',
+    color: "000",
+    name: "Đen",
   },
   {
-    color: '8c8c8c',
-    name: 'Xám',
+    color: "8c8c8c",
+    name: "Xám",
   },
   {
-    color: 'd9b99b',
-    name: 'Be',
+    color: "d9b99b",
+    name: "Be",
   },
   {
-    color: '186287',
-    name: 'Xanh nước nhạt',
+    color: "186287",
+    name: "Xanh nước nhạt",
   },
   {
-    color: '114abd',
-    name: 'Xanh nước đậm',
+    color: "114abd",
+    name: "Xanh nước đậm",
   },
   {
-    color: '6e10a1',
-    name: 'Tím',
+    color: "6e10a1",
+    name: "Tím",
   },
 ];
 
@@ -75,5 +75,3 @@ export const REPORT_CRITERIA = ["day", "month", "year"];
 
 export const STATUS_ACTIVE = "Active";
 export const STATUS_DISABLE = "Disable";
-
-
