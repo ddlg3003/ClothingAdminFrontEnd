@@ -23,7 +23,7 @@ import { useGetAllOrdersQuery } from "../../services/orderApis";
 import { useGetProfitByCriteriaQuery } from "../../services/reportApis";
 
 const Dashboard = () => {
-  const [reportCriteria, setReportCriteria] = useState(REPORT_CRITERIA[0]);
+  const [reportCriteria, setReportCriteria] = useState(REPORT_CRITERIA.day);
   // get profit by timeline
   const { data: profit, isFetching: isFetchingProfit } =
     useGetProfitByCriteriaQuery(reportCriteria);
@@ -82,9 +82,9 @@ const Dashboard = () => {
                     label="Age"
                     onChange={(e) => handleChangeProfitBy(e)}
                   >
-                    <MenuItem value={REPORT_CRITERIA[0]}>Ngày</MenuItem>
-                    <MenuItem value={REPORT_CRITERIA[1]}>Tháng</MenuItem>
-                    <MenuItem value={REPORT_CRITERIA[2]}>Năm</MenuItem>
+                    <MenuItem value={REPORT_CRITERIA.day}>Ngày</MenuItem>
+                    <MenuItem value={REPORT_CRITERIA.month}>Tháng</MenuItem>
+                    <MenuItem value={REPORT_CRITERIA.year}>Năm</MenuItem>
                   </Select>
                 </FormControl>
               </Stack>
@@ -231,7 +231,7 @@ const Dashboard = () => {
                     color="primary"
                     href="#"
                     onClick={() => {
-                      navigate(URL_SIDEBAR[3]);
+                      navigate(URL_SIDEBAR.order);
                     }}
                     sx={{ mt: 3 }}
                   >

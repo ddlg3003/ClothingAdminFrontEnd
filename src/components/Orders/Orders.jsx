@@ -156,27 +156,27 @@ const Orders = () => {
                   />
                   <Tab
                     label={`Chờ xác nhận (${getOrderListLengthByStatus(
-                      ORDER_STATUS[0].status
+                      ORDER_STATUS.pending.status
                     )})`}
-                    value={ORDER_STATUS[0].status}
+                    value={ORDER_STATUS.pending.status}
                   />
                   <Tab
                     label={`Đang giao (${getOrderListLengthByStatus(
-                      ORDER_STATUS[1].status
+                      ORDER_STATUS.delivering.status
                     )})`}
-                    value={ORDER_STATUS[1].status}
+                    value={ORDER_STATUS.delivering.status}
                   />
                   <Tab
                     label={`Đã giao (${getOrderListLengthByStatus(
-                      ORDER_STATUS[2].status
+                      ORDER_STATUS.done.status
                     )})`}
-                    value={ORDER_STATUS[2].status}
+                    value={ORDER_STATUS.done.status}
                   />
                   <Tab
                     label={`Đã hủy (${getOrderListLengthByStatus(
-                      ORDER_STATUS[3].status
+                      ORDER_STATUS.canceled.status
                     )})`}
-                    value={ORDER_STATUS[3].status}
+                    value={ORDER_STATUS.canceled.status}
                   />
                 </TabList>
               </Box>
@@ -329,14 +329,14 @@ const Orders = () => {
                                 // fontWeight="bold"
                               >
                                 {
-                                  ORDER_STATUS.find(
+                                  Object.values(ORDER_STATUS).find(
                                     (o) => o.status === order?.ordStatus
                                   ).string
                                 }
                               </Typography>
                             </TableCell>
                             <TableCell align="left">
-                              {order?.ordStatus === ORDER_STATUS[0].status ? (
+                              {order?.ordStatus === ORDER_STATUS.pending.status ? (
                                 <Stack spacing={1}>
                                   <Button
                                     sx={{ width: "130px" }}
@@ -365,7 +365,7 @@ const Orders = () => {
                                   />
                                 </Stack>
                               ) : order?.ordStatus ===
-                                ORDER_STATUS[1].status ? (
+                                ORDER_STATUS.delivering.status ? (
                                 <Button
                                   sx={{ width: "130px" }}
                                   variant="contained"

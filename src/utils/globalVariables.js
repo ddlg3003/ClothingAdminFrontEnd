@@ -3,32 +3,32 @@ export const BLACK_LOGO =
 
 export const BASE_API_URL = "http://localhost:8099";
 
-export const URL_SIDEBAR = [
-  "/",
-  "/categories",
-  "/products",
-  "/orders",
-  "/users",
-];
+export const URL_SIDEBAR = {
+  home: "/",
+  category: "/categories",
+  product: "/products",
+  order: "/orders",
+  user: "/users",
+};
 
-export const ORDER_STATUS = [
-  {
+export const ORDER_STATUS = {
+  pending: {
     status: "PENDING",
     string: "Chờ xác nhận",
   },
-  {
+  delivering: {
     status: "DELIVERING",
     string: "Đang giao",
   },
-  {
+  done: {
     status: "DONE",
-    string: "Giao hàng thành công",
+    string: "Đã giao",
   },
-  {
+  canceled: {
     status: "CANCELED",
     string: "Đã hủy",
   },
-];
+};
 
 // export const PRODUCT_QUERY_STRING = ['page', 'limit'];
 
@@ -71,7 +71,11 @@ export const SIZE_LIST = [1, 2, 3, 4, 5];
 
 export const ERROR_MESSAGES = ["Không đủ số lượng sản phẩm trong kho!"];
 
-export const REPORT_CRITERIA = ["day", "month", "year"];
+export const REPORT_CRITERIA = {
+  day: "day", 
+  month: "month", 
+  year: "year",
+};
 
 export const STATUS_ACTIVE = "Active";
 export const STATUS_DISABLE = "Disable";

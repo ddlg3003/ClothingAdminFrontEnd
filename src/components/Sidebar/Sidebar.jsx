@@ -45,7 +45,7 @@ const Sidebar = () => {
                 <ListItemButton
                   sx={{ padding: "12px" }}
                   onClick={() => {
-                    navigate(URL_SIDEBAR[index]);
+                    navigate(URL_SIDEBAR[Object.keys(URL_SIDEBAR)[index]]);
                   }}
                 >
                   <ListItemIcon>{sidebarIcon[index]}</ListItemIcon>
