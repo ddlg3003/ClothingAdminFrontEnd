@@ -13,12 +13,12 @@ export const URL_SIDEBAR = {
 
 export const ORDER_STATUS = {
   pending: {
-    status: "PENDING",
+    status: 'PENDING',
     string: 'Chờ xác nhận',
   },
   delivering: {
-    status: 'DELIVERING',
-    string: 'Đang giao',
+    status: "DELIVERING",
+      string: "Đang giao",
   },
   done: {
     status: 'DONE',
