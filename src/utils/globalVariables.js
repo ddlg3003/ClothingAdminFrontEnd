@@ -17,8 +17,8 @@ export const ORDER_STATUS = {
     string: 'Chờ xác nhận',
   },
   delivering: {
-    status: "DELIVERING",
-            string: "Đang giao",
+    status: 'DELIVERING',
+    string: 'Đang giao',
   },
   done: {
     status: 'DONE',
