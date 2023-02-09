@@ -18,7 +18,7 @@ export const ORDER_STATUS = {
   },
   delivering: {
     status: "DELIVERING",
-      string: "Đang giao",
+            string: "Đang giao",
   },
   done: {
     status: 'DONE',
