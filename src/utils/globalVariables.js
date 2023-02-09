@@ -14,7 +14,7 @@ export const URL_SIDEBAR = {
 export const ORDER_STATUS = {
   pending: {
     status: "PENDING",
-    string: "Chờ xác nhận",
+    string: 'Chờ xác nhận',
   },
   delivering: {
     status: 'DELIVERING',
