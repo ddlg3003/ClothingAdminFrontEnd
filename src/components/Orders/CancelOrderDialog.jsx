@@ -1,8 +1,8 @@
-import React from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogTitle from "@mui/material/DialogTitle";
+import React from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const CancelOrderDialog = ({
   onClose,
@@ -29,7 +29,7 @@ const CancelOrderDialog = ({
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Xác nhận hủy đơn hàng?"}
+          {'Xác nhận hủy đơn hàng?'}
         </DialogTitle>
         <DialogActions>
           <Button sx={{ mb: 1 }} onClick={handleClose}>

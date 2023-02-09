@@ -1,5 +1,5 @@
-import * as React from "react";
-import { useTheme } from "@mui/material/styles";
+import * as React from 'react';
+import { useTheme } from '@mui/material/styles';
 import {
   LineChart,
   Line,
@@ -8,8 +8,8 @@ import {
   Label,
   ResponsiveContainer,
   Tooltip,
-} from "recharts";
-import { useGetChartStatisticQuery } from "../../services/reportApis";
+} from 'recharts';
+import { useGetChartStatisticQuery } from '../../services/reportApis';
 
 export default function Chart() {
   const { data: chartData, isFetching } = useGetChartStatisticQuery();
@@ -41,7 +41,7 @@ export default function Chart() {
               angle={270}
               position="left"
               style={{
-                textAnchor: "middle",
+                textAnchor: 'middle',
                 fill: theme.palette.text.primary,
                 ...theme.typography.body1,
               }}

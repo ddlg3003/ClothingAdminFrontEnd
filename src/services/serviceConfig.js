@@ -1,12 +1,12 @@
-import { BASE_API_URL } from "../utils/globalVariables";
+import { BASE_API_URL } from '../utils/globalVariables';
 
 const baseQuery = {
   baseUrl: BASE_API_URL,
   prepareHeaders: (headers) => {
-    const token = sessionStorage.getItem("token");
+    const token = sessionStorage.getItem('token');
 
     if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
+      headers.set('Authorization', `Bearer ${token}`);
     }
 
     return headers;

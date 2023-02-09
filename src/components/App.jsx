@@ -1,17 +1,17 @@
-import React from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
-import { CssBaseline } from "@mui/material";
-import Categories from "./Categories/Categories";
-import Products from "./Products/Products";
-import Users from "./Users/Users";
-import Orders from "./Orders/Orders";
-import Dashboard from "./Dashboard/Dashboard";
-import HeaderAndSidebar from "./HeaderAndSidebar";
-import NotHeaderAndSiderbar from "./NotHeaderAndSiderbar";
-import Auth from "./Auth/Auth";
-import ProductControl from "./ProductControl/ProductControl";
-import { useSelector } from "react-redux";
-import CategoryControl from "./CategoryControl/CategoryControl";
+import React from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import { CssBaseline } from '@mui/material';
+import Categories from './Categories/Categories';
+import Products from './Products/Products';
+import Users from './Users/Users';
+import Orders from './Orders/Orders';
+import Dashboard from './Dashboard/Dashboard';
+import HeaderAndSidebar from './HeaderAndSidebar';
+import NotHeaderAndSiderbar from './NotHeaderAndSiderbar';
+import Auth from './Auth/Auth';
+import ProductControl from './ProductControl/ProductControl';
+import { useSelector } from 'react-redux';
+import CategoryControl from './CategoryControl/CategoryControl';
 
 const App = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);

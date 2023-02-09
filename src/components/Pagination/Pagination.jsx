@@ -1,5 +1,5 @@
-import { Paper, TablePagination } from "@mui/material";
-import React from "react";
+import { Paper, TablePagination } from '@mui/material';
+import React from 'react';
 
 const Pagination = ({
   handleChangePage,

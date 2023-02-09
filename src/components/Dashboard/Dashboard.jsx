@@ -10,17 +10,17 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from "@mui/material";
-import React, { useState } from "react";
-import Chart from "../Chart/Chart";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import Link from "@mui/material/Link";
-import { REPORT_CRITERIA, URL_SIDEBAR } from "../../utils/globalVariables";
-import { useNavigate } from "react-router-dom";
-import { useGetAllOrdersQuery } from "../../services/orderApis";
-import { useGetProfitByCriteriaQuery } from "../../services/reportApis";
+} from '@mui/material';
+import React, { useState } from 'react';
+import Chart from '../Chart/Chart';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Link from '@mui/material/Link';
+import { REPORT_CRITERIA, URL_SIDEBAR } from '../../utils/globalVariables';
+import { useNavigate } from 'react-router-dom';
+import { useGetAllOrdersQuery } from '../../services/orderApis';
+import { useGetProfitByCriteriaQuery } from '../../services/reportApis';
 
 const Dashboard = () => {
   const [reportCriteria, setReportCriteria] = useState(REPORT_CRITERIA.day);
@@ -40,14 +40,14 @@ const Dashboard = () => {
 
   return (
     <>
-      <Container maxWidth="xl" sx={{ paddingTop: "40px" }}>
+      <Container maxWidth="xl" sx={{ paddingTop: '40px' }}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8} lg={9}>
             <Paper
               sx={{
                 p: 2,
-                display: "flex",
-                flexDirection: "column",
+                display: 'flex',
+                flexDirection: 'column',
                 height: 240,
               }}
             >
@@ -58,8 +58,8 @@ const Dashboard = () => {
             <Paper
               sx={{
                 p: 2,
-                display: "flex",
-                flexDirection: "column",
+                display: 'flex',
+                flexDirection: 'column',
                 height: 240,
               }}
             >
@@ -94,9 +94,9 @@ const Dashboard = () => {
                 </Typography>
               ) : (
                 <Typography component="p" variant="h4" mt={1}>
-                  {Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
+                  {Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
                   }).format(profit)}
                 </Typography>
               )}
@@ -107,7 +107,7 @@ const Dashboard = () => {
           </Grid>
           {/* Recent Orders */}
           <Grid item xs={12}>
-            <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
               <Typography component="p" variant="body1" fontSize={20} mb={1}>
                 Đơn hàng gần đây
               </Typography>
@@ -217,9 +217,9 @@ const Dashboard = () => {
                               variant="body1"
                               fontSize={18}
                             >
-                              {Intl.NumberFormat("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
+                              {Intl.NumberFormat('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
                               }).format(order?.ordTotalPrice)}
                             </Typography>
                           </TableCell>
@@ -248,12 +248,12 @@ const Dashboard = () => {
           color="text.secondary"
           align="center"
         >
-          {"Copyright © "}
+          {'Copyright © '}
           <Link color="inherit" href="http://localhost:3000/">
             ADNCloth
-          </Link>{" "}
+          </Link>{' '}
           {new Date().getFullYear()}
-          {"."}
+          {'.'}
         </Typography>
       </Container>
     </>

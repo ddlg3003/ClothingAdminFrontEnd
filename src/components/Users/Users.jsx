@@ -9,14 +9,14 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from "@mui/material";
-import React from "react";
+} from '@mui/material';
+import React from 'react';
 import {
   useBanUserByEmailMutation,
   useGetAllUsersQuery,
   useUnbanUserByEmailMutation,
-} from "../../services/userApis";
-import useStyles from "./styles";
+} from '../../services/userApis';
+import useStyles from './styles';
 
 const Users = () => {
   const classes = useStyles();
@@ -39,15 +39,15 @@ const Users = () => {
     } catch {}
   };
   return (
-    <Container maxWidth="xl" sx={{ padding: "40px 0" }}>
-      <Paper sx={{ padding: "12px" }}>
+    <Container maxWidth="xl" sx={{ padding: '40px 0' }}>
+      <Paper sx={{ padding: '12px' }}>
         <div className={classes.categoryInfo}>
           <Typography variant="h6">
             Tổng người dùng hiện có: {usersData?.length}
           </Typography>
         </div>
       </Paper>
-      <TableContainer component={Paper} sx={{ marginTop: "20px" }}>
+      <TableContainer component={Paper} sx={{ marginTop: '20px' }}>
         <Table sx={{ minWidth: 650 }} aria-label="product">
           <TableHead>
             <TableRow>
@@ -157,11 +157,11 @@ const Users = () => {
                   </TableCell>
                   <TableCell align="left">
                     <Typography component="p" variant="body1" fontSize={16}>
-                      {user?.gender === "male"
-                        ? "Nam"
-                        : user?.gender === "female"
-                        ? "Nữ"
-                        : "Khác"}
+                      {user?.gender === 'male'
+                        ? 'Nam'
+                        : user?.gender === 'female'
+                        ? 'Nữ'
+                        : 'Khác'}
                     </Typography>
                   </TableCell>
                   <TableCell align="left">
@@ -170,17 +170,17 @@ const Users = () => {
                     </Typography>
                   </TableCell>
                   <TableCell align="left">
-                    {user?.status === "Active" ? (
+                    {user?.status === 'Active' ? (
                       <Link
                         onClick={() => handleBanClick(user?.email)}
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: 'pointer' }}
                       >
                         Khóa
                       </Link>
                     ) : (
                       <Link
                         onClick={() => handleUnbanClick(user?.email)}
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: 'pointer' }}
                       >
                         Bỏ khóa
                       </Link>

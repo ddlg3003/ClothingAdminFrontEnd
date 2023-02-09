@@ -1,4 +1,4 @@
-import { clothing } from "./clothingBaseApis";
+import { clothing } from './clothingBaseApis';
 
 const product = clothing.injectEndpoints({
   endpoints: (builder) => ({

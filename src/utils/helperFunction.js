@@ -5,9 +5,9 @@ export const isValidImage = function (img) {
 
   if (fileSize <= 10) {
     if (
-      fileType === "image/jpeg" ||
-      fileType === "image/png" ||
-      fileType === "image/jpg"
+      fileType === 'image/jpeg' ||
+      fileType === 'image/png' ||
+      fileType === 'image/jpg'
     )
       return true;
   }

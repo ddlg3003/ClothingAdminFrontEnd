@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Formik } from "formik";
+import React, { useState } from 'react';
+import { Formik } from 'formik';
 import {
   Box,
   Button,
@@ -8,14 +8,14 @@ import {
   Paper,
   TextField,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 import {
   useCreateCategoryMutation,
   useGetCategoryByIdQuery,
   useUpdateCategoryMutation,
-} from "../../services/catApis";
-import Alert from "../Alert/Alert";
-import { useParams } from "react-router-dom";
+} from '../../services/catApis';
+import Alert from '../Alert/Alert';
+import { useParams } from 'react-router-dom';
 
 const CategoryControl = () => {
   // If id in param, this is edit product if not, this is create product
@@ -33,13 +33,13 @@ const CategoryControl = () => {
   const [openToast, setOpenToast] = useState(false);
 
   const [toast, setToast] = useState({
-    message: "",
-    color: "",
-    severity: "",
+    message: '',
+    color: '',
+    severity: '',
   });
 
   const handleCloseToast = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
 
@@ -52,33 +52,33 @@ const CategoryControl = () => {
         await updateCategory({ catId: id, formData: values });
       } else {
         await createCategory(values);
-        values.name = "";
+        values.name = '';
       }
 
       setOpenToast(true);
       setToast((toast) => ({
         ...toast,
-        color: "success",
-        severity: "success",
-        message: `${categoryData ? "Sửa" : "Thêm"} danh mục thành công`,
+        color: 'success',
+        severity: 'success',
+        message: `${categoryData ? 'Sửa' : 'Thêm'} danh mục thành công`,
       }));
     } catch (error) {
       setOpenToast(true);
       setToast((toast) => ({
         ...toast,
-        color: "error",
-        severity: "error",
-        message: "Đã có lỗi xảy ra vui lòng thử lại sau",
+        color: 'error',
+        severity: 'error',
+        message: 'Đã có lỗi xảy ra vui lòng thử lại sau',
       }));
     }
   };
 
   return (
-    <Container maxWidth="lg" sx={{ padding: "40px 0" }}>
-      <Paper sx={{ padding: "24px 48px 24px 48px" }}>
+    <Container maxWidth="lg" sx={{ padding: '40px 0' }}>
+      <Paper sx={{ padding: '24px 48px 24px 48px' }}>
         <Typography variant="h5" mb={4}>
-          {id ? "Sửa" : "Thêm"} danh mục{" "}
-          {categoryData ? `(Mã: ${categoryData?.id})` : ""}
+          {id ? 'Sửa' : 'Thêm'} danh mục{' '}
+          {categoryData ? `(Mã: ${categoryData?.id})` : ''}
         </Typography>
         {isFetchingCategoryData ? (
           <Box display="flex" justifyContent="center">
@@ -87,7 +87,7 @@ const CategoryControl = () => {
         ) : (
           <Formik
             initialValues={{
-              name: categoryData?.name ? categoryData?.name : "",
+              name: categoryData?.name ? categoryData?.name : '',
               parent_id: 0,
             }}
             onSubmit={handleSubmit}
@@ -104,7 +104,7 @@ const CategoryControl = () => {
                   onChange={handleChange}
                 />
                 <Button
-                  sx={{ mt: "8px" }}
+                  sx={{ mt: '8px' }}
                   color="primary"
                   variant="contained"
                   type="submit"

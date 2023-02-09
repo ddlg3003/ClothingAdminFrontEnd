@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Container, Paper, Typography } from "@mui/material";
-import Input from "./Input";
-import { BLACK_LOGO } from "../../utils/globalVariables";
-import { getUserLogin } from "../../utils/auth";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useRef, useState } from 'react';
+import { Button, Container, Paper, Typography } from '@mui/material';
+import Input from './Input';
+import { BLACK_LOGO } from '../../utils/globalVariables';
+import { getUserLogin } from '../../utils/auth';
+import { useDispatch } from 'react-redux';
 // import { useNavigate } from 'react-router-dom';
-import Alert from "../Alert/Alert";
-import { setUser } from "../../features/auth";
-import useStyles from "./styles";
+import Alert from '../Alert/Alert';
+import { setUser } from '../../features/auth';
+import useStyles from './styles';
 
 const Auth = () => {
   const classes = useStyles();
@@ -15,26 +15,26 @@ const Auth = () => {
   // const navigate = useNavigate();
 
   const initialFormState = {
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   };
 
   const [formData, setFormData] = useState(initialFormState);
   const [invalidUsername, setInvalidUsername] = useState({
     error: false,
-    helperText: "",
+    helperText: '',
   });
   const [invalidPassword, setInvalidPassword] = useState({
     error: false,
-    helperText: "",
+    helperText: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [enableButton, setEnableButton] = useState(false);
   const [openToast, setOpenToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
+  const [toastMessage, setToastMessage] = useState('');
 
   const handleCloseToast = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
 
@@ -43,11 +43,11 @@ const Auth = () => {
 
   const handleInvalid = (e, setInvalidData, helperText) => {
     if (e.target.value) {
-      setInvalidData(prev => ({ ...prev, error: false, helperText: "" }));
+      setInvalidData((prev) => ({ ...prev, error: false, helperText: '' }));
     } else {
-      setInvalidData(prev => ({ ...prev, error: true, helperText }));
+      setInvalidData((prev) => ({ ...prev, error: true, helperText }));
     }
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const usernameInput = useRef();
@@ -62,13 +62,13 @@ const Auth = () => {
   const handleShowPassword = () => setShowPassword((prev) => !prev);
 
   const handleUsernameChange = (e) => {
-    const helperText = "Vui lòng điền vào trường này";
+    const helperText = 'Vui lòng điền vào trường này';
 
     return handleInvalid(e, setInvalidUsername, helperText);
   };
 
   const handlePasswordChange = (e) => {
-    const helperText = "Vui lòng điền vào trường này";
+    const helperText = 'Vui lòng điền vào trường này';
 
     return handleInvalid(e, setInvalidPassword, helperText);
   };
@@ -81,16 +81,16 @@ const Auth = () => {
     console.log(data);
 
     if (status === 200) {
-      if (!data?.roles.find((role) => role.authority === "ADMIN")) {
+      if (!data?.roles.find((role) => role.authority === 'ADMIN')) {
         setOpenToast(true);
-        setToastMessage("Bạn không được uỷ quyền để truy cập vào trang này");
+        setToastMessage('Bạn không được uỷ quyền để truy cập vào trang này');
       } else {
         dispatch(setUser(data));
-        window.location.href = "http://localhost:4000";
+        window.location.href = 'http://localhost:4000';
       }
     } else {
       setOpenToast(true);
-      setToastMessage("Thông tin đăng nhập không đúng");
+      setToastMessage('Thông tin đăng nhập không đúng');
     }
   };
 
@@ -114,7 +114,7 @@ const Auth = () => {
             name="password"
             label="Mật khẩu"
             handleChange={handlePasswordChange}
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             handleShowPassword={handleShowPassword}
             helperText={invalidPassword.helperText}
             error={invalidPassword.error}
@@ -123,7 +123,7 @@ const Auth = () => {
           <Button
             variant="contained"
             size="medium"
-            style={{ padding: "16px", width: "100%" }}
+            style={{ padding: '16px', width: '100%' }}
             type="submit"
             disabled={!enableButton}
           >

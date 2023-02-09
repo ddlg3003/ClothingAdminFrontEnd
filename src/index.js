@@ -1,13 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./components/App";
-import { BrowserRouter } from "react-router-dom";
-import { ThemeProvider, createTheme } from "@mui/material";
-import { Provider } from "react-redux";
-import store from "./app/store";
-import "./app.css";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './components/App';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material';
+import { Provider } from 'react-redux';
+import store from './app/store';
+import './app.css';
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 const theme = createTheme({});
 
 root.render(
@@ -18,5 +18,5 @@ root.render(
         <App />
       </BrowserRouter>
     </ThemeProvider>
-  </Provider>
+  </Provider>,
 );

@@ -1,9 +1,9 @@
-import { AppBar, Avatar, Button, Menu, MenuItem, Toolbar } from "@mui/material";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { logout } from "../../features/auth";
-import useStyles from "./styles";
+import { AppBar, Avatar, Button, Menu, MenuItem, Toolbar } from '@mui/material';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { logout } from '../../features/auth';
+import useStyles from './styles';
 
 const Header = () => {
   const classes = useStyles();
@@ -45,12 +45,12 @@ const Header = () => {
 
   return (
     <AppBar position="fixed">
-      <Toolbar sx={{ marginLeft: "240px", justifyContent: "flex-end" }}>
+      <Toolbar sx={{ marginLeft: '240px', justifyContent: 'flex-end' }}>
         <Button
           color="primary"
           onClick={handleClickAuth}
           onMouseOver={handleClickAuth}
-          sx={{ color: "white" }}
+          sx={{ color: 'white' }}
           onMouseLeave={handleCloseHoverAuth}
         >
           <Avatar sx={{ width: 32, height: 32 }} /> &nbsp; ADMIN
@@ -64,11 +64,11 @@ const Header = () => {
           MenuListProps={{
             onMouseEnter: handleHoverAuth,
             onMouseLeave: handleCloseHoverAuth,
-            style: { pointerEvents: "auto" },
+            style: { pointerEvents: 'auto' },
           }}
           anchorOrigin={{
-            horizontal: "left",
-            vertical: "bottom",
+            horizontal: 'left',
+            vertical: 'bottom',
           }}
           PopoverClasses={{
             root: classes.popOverRoot,
@@ -93,8 +93,8 @@ const Header = () => {
           <Link
             to="/login"
             style={{
-              textDecoration: "none",
-              color: "black",
+              textDecoration: 'none',
+              color: 'black',
             }}
           >
             <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>

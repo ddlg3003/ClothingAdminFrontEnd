@@ -1,30 +1,30 @@
-import { clothing } from "./clothingBaseApis";
+import { clothing } from './clothingBaseApis';
 
 const product = clothing.injectEndpoints({
   endpoints: (builder) => ({
     getCategories: builder.query({
-      query: () => "category/getAll",
-      providesTags: ["Category"],
+      query: () => 'category/getAll',
+      providesTags: ['Category'],
     }),
     getPagingCategories: builder.query({
       query: ({ pageNumber, pageSize }) =>
         `category?pageNo=${pageNumber}&pageSize=${pageSize}`,
-      providesTags: ["Category"],
+      providesTags: ['Category'],
     }),
     createCategory: builder.mutation({
       query: (formData) => ({
-        url: "admin/category/createCategory",
-        method: "POST",
+        url: 'admin/category/createCategory',
+        method: 'POST',
         body: formData,
       }),
-      invalidatesTags: ["Category"],
+      invalidatesTags: ['Category'],
     }),
     deleteCategory: builder.mutation({
       query: (catId) => ({
         url: `admin/category/${catId}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
-      invalidatesTags: ["Category"],
+      invalidatesTags: ['Category'],
     }),
     getCategoryById: builder.query({
       query: (catId) => `category/${catId}`,
@@ -32,10 +32,10 @@ const product = clothing.injectEndpoints({
     updateCategory: builder.mutation({
       query: ({ catId, formData }) => ({
         url: `admin/category/${catId}`,
-        method: "PUT",
+        method: 'PUT',
         body: formData,
       }),
-      invalidatesTags: ["Category"],
+      invalidatesTags: ['Category'],
     }),
   }),
   overrideExisting: false,

@@ -13,33 +13,33 @@ import {
   TableRow,
   Typography,
   Box,
-} from "@mui/material";
-import React, { useEffect, useState } from "react";
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import {
   useAcceptOrderMutation,
   useDenyOrderMutation,
   useGetAllOrdersQuery,
   useGetOrdersQuery,
-} from "../../services/orderApis";
+} from '../../services/orderApis';
 import {
   ERROR_MESSAGES,
   ORDER_PAGING_LIMIT,
   ORDER_STATUS,
   COLOR_LIST,
-} from "../../utils/globalVariables";
-import CancelOrderDialog from "./CancelOrderDialog";
-import Pagination from "../Pagination/Pagination";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import Tab from "@mui/material/Tab";
+} from '../../utils/globalVariables';
+import CancelOrderDialog from './CancelOrderDialog';
+import Pagination from '../Pagination/Pagination';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import Tab from '@mui/material/Tab';
 
 const Orders = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(ORDER_PAGING_LIMIT);
 
   // tabs handling
-  const [value, setValue] = useState("Active");
+  const [value, setValue] = useState('Active');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -48,13 +48,13 @@ const Orders = () => {
 
   // handle scroll position after content load
   const handleScrollPosition = () => {
-    const scrollPosition = sessionStorage.getItem("scrollPosition");
+    const scrollPosition = sessionStorage.getItem('scrollPosition');
     window.scrollTo(0, parseInt(scrollPosition));
   };
 
   // store position in sessionStorage
   const handleStoreScrollPosition = (e) => {
-    sessionStorage.setItem("scrollPosition", window.pageYOffset);
+    sessionStorage.setItem('scrollPosition', window.pageYOffset);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -77,7 +77,7 @@ const Orders = () => {
   }, [isFetchingOrders]);
 
   // cancel order dialog's state
-  const [openCancelOrderDialog, setOpenCancelOrderDialog] = useState("");
+  const [openCancelOrderDialog, setOpenCancelOrderDialog] = useState('');
 
   const handleClickCancelOrder = (orderId) => {
     handleStoreScrollPosition();
@@ -85,7 +85,7 @@ const Orders = () => {
   };
 
   const handleCloseCancelOrder = () => {
-    setOpenCancelOrderDialog("");
+    setOpenCancelOrderDialog('');
   };
 
   const [denyOrder] = useDenyOrderMutation();
@@ -124,7 +124,7 @@ const Orders = () => {
     if (isFetchingOrdersDataPagination) {
       return 0;
     }
-    if (status === "Active") {
+    if (status === 'Active') {
       return ordersData?.numberItem;
     }
 
@@ -134,47 +134,47 @@ const Orders = () => {
 
   return (
     <>
-      <Container maxWidth="xl" sx={{ padding: "40px 0" }}>
-        <Paper sx={{ padding: "12px", marginBottom: "20px" }}>
-          <div sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Container maxWidth="xl" sx={{ padding: '40px 0' }}>
+        <Paper sx={{ padding: '12px', marginBottom: '20px' }}>
+          <div sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="h6">
               Tổng đơn hàng hiện có: {ordersData?.numberItem}
             </Typography>
           </div>
         </Paper>
         <TableContainer component={Paper}>
-          <Box sx={{ width: "100%", typography: "body1" }}>
+          <Box sx={{ width: '100%', typography: 'body1' }}>
             <TabContext value={value}>
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <TabList
                   onChange={handleChange}
                   aria-label="lab API tabs example"
                 >
                   <Tab
-                    label={`Tất cả (${getOrderListLengthByStatus("Active")})`}
+                    label={`Tất cả (${getOrderListLengthByStatus('Active')})`}
                     value="Active"
                   />
                   <Tab
                     label={`Chờ xác nhận (${getOrderListLengthByStatus(
-                      ORDER_STATUS.pending.status
+                      ORDER_STATUS.pending.status,
                     )})`}
                     value={ORDER_STATUS.pending.status}
                   />
                   <Tab
                     label={`Đang giao (${getOrderListLengthByStatus(
-                      ORDER_STATUS.delivering.status
+                      ORDER_STATUS.delivering.status,
                     )})`}
                     value={ORDER_STATUS.delivering.status}
                   />
                   <Tab
                     label={`Đã giao (${getOrderListLengthByStatus(
-                      ORDER_STATUS.done.status
+                      ORDER_STATUS.done.status,
                     )})`}
                     value={ORDER_STATUS.done.status}
                   />
                   <Tab
                     label={`Đã hủy (${getOrderListLengthByStatus(
-                      ORDER_STATUS.canceled.status
+                      ORDER_STATUS.canceled.status,
                     )})`}
                     value={ORDER_STATUS.canceled.status}
                   />
@@ -198,7 +198,7 @@ const Orders = () => {
                       <TableCell align="left" width={200}>
                         &nbsp;
                       </TableCell>
-                      <TableCell align="left" sx={{ width: "250px" }}>
+                      <TableCell align="left" sx={{ width: '250px' }}>
                         <Typography
                           component="p"
                           variant="body1"
@@ -214,7 +214,7 @@ const Orders = () => {
                           variant="body1"
                           fontWeight="bold"
                           fontSize={18}
-                          sx={{ width: "200px" }}
+                          sx={{ width: '200px' }}
                         >
                           Trạng thái
                         </Typography>
@@ -248,7 +248,7 @@ const Orders = () => {
                     ) : (
                       ordersData?.orderMapperList.map((order, orderIndex) => (
                         <>
-                          <TableRow key={order?.id} sx={{ height: "130px" }}>
+                          <TableRow key={order?.id} sx={{ height: '130px' }}>
                             <TableCell colSpan={2}>
                               <Stack>
                                 <Stack
@@ -306,9 +306,9 @@ const Orders = () => {
                                   fontSize={20}
                                   fontWeight="bold"
                                 >
-                                  {Intl.NumberFormat("vi-VN", {
-                                    style: "currency",
-                                    currency: "VND",
+                                  {Intl.NumberFormat('vi-VN', {
+                                    style: 'currency',
+                                    currency: 'VND',
                                   }).format(order?.ordTotalPrice)}
                                 </Typography>
                                 <Typography
@@ -330,16 +330,17 @@ const Orders = () => {
                               >
                                 {
                                   Object.values(ORDER_STATUS).find(
-                                    (o) => o.status === order?.ordStatus
+                                    (o) => o.status === order?.ordStatus,
                                   ).string
                                 }
                               </Typography>
                             </TableCell>
                             <TableCell align="left">
-                              {order?.ordStatus === ORDER_STATUS.pending.status ? (
+                              {order?.ordStatus ===
+                              ORDER_STATUS.pending.status ? (
                                 <Stack spacing={1}>
                                   <Button
-                                    sx={{ width: "130px" }}
+                                    sx={{ width: '130px' }}
                                     variant="contained"
                                     onClick={() => handleAcceptOrder(order.id)}
                                   >
@@ -347,7 +348,7 @@ const Orders = () => {
                                   </Button>
 
                                   <Button
-                                    sx={{ width: "130px" }}
+                                    sx={{ width: '130px' }}
                                     variant="outlined"
                                     onClick={() =>
                                       handleClickCancelOrder(order.id)
@@ -367,7 +368,7 @@ const Orders = () => {
                               ) : order?.ordStatus ===
                                 ORDER_STATUS.delivering.status ? (
                                 <Button
-                                  sx={{ width: "130px" }}
+                                  sx={{ width: '130px' }}
                                   variant="contained"
                                   onClick={() =>
                                     handleCompletingOrder(order.id)
@@ -377,7 +378,7 @@ const Orders = () => {
                                 </Button>
                               ) : (
                                 <Button
-                                  sx={{ width: "130px" }}
+                                  sx={{ width: '130px' }}
                                   variant="outlined"
                                   disabled
                                 >
@@ -391,7 +392,7 @@ const Orders = () => {
                             <TableRow
                               key={transaction?.id}
                               sx={{
-                                "&:last-child td, &:last-child th": {
+                                '&:last-child td, &:last-child th': {
                                   border: 0,
                                 },
                               }}
@@ -408,7 +409,7 @@ const Orders = () => {
                                   <Typography
                                     fontSize={16}
                                     maxWidth={400}
-                                    sx={{ color: "#000" }}
+                                    sx={{ color: '#000' }}
                                   >
                                     {transaction?.productName}
                                   </Typography>
@@ -417,11 +418,12 @@ const Orders = () => {
                                     color="text.secondary"
                                     maxWidth={200}
                                   >
-                                    Màu:{" "}
+                                    Màu:{' '}
                                     {
                                       COLOR_LIST.find(
                                         (colorItem) =>
-                                          colorItem.color === transaction?.color
+                                          colorItem.color ===
+                                          transaction?.color,
                                       ).name
                                     }
                                   </Typography>
@@ -438,7 +440,7 @@ const Orders = () => {
                                 <Typography
                                   fontSize={16}
                                   maxWidth={300}
-                                  sx={{ color: "#000" }}
+                                  sx={{ color: '#000' }}
                                 >
                                   x{transaction?.tranQuantity}
                                 </Typography>
@@ -449,9 +451,9 @@ const Orders = () => {
                                   variant="body1"
                                   fontSize={18}
                                 >
-                                  {Intl.NumberFormat("vi-VN", {
-                                    style: "currency",
-                                    currency: "VND",
+                                  {Intl.NumberFormat('vi-VN', {
+                                    style: 'currency',
+                                    currency: 'VND',
                                   }).format(transaction?.tranUnitPrice)}
                                 </Typography>
                               </TableCell>
@@ -463,8 +465,8 @@ const Orders = () => {
                           ordersData?.orderMapperList.length - 1 ? (
                             <TableRow
                               sx={{
-                                backgroundColor: "#F5F5F5",
-                                lineHeight: "30px",
+                                backgroundColor: '#F5F5F5',
+                                lineHeight: '30px',
                               }}
                             >
                               <TableCell>&nbsp;</TableCell>

@@ -1,7 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import { clothing } from "../services/clothingBaseApis";
-import authReducer from "../features/auth";
+import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { clothing } from '../services/clothingBaseApis';
+import authReducer from '../features/auth';
 
 const store = configureStore({
   reducer: {

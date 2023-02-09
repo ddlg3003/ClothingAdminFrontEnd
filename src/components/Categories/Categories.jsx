@@ -1,4 +1,4 @@
-import AddIcon from "@mui/icons-material/Add";
+import AddIcon from '@mui/icons-material/Add';
 import {
   Button,
   Container,
@@ -12,16 +12,16 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from "@mui/material";
-import React, { useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+} from '@mui/material';
+import React, { useState } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
   useGetPagingCategoriesQuery,
   useDeleteCategoryMutation,
-} from "../../services/catApis";
-import { STATUS_ACTIVE, LIMIT } from "../../utils/globalVariables";
-import Pagination from "../Pagination/Pagination";
-import useStyles from "./styles";
+} from '../../services/catApis';
+import { STATUS_ACTIVE, LIMIT } from '../../utils/globalVariables';
+import Pagination from '../Pagination/Pagination';
+import useStyles from './styles';
 
 const Categories = () => {
   const classes = useStyles();
@@ -54,8 +54,8 @@ const Categories = () => {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ padding: "40px 0" }}>
-      <Paper sx={{ padding: "12px" }}>
+    <Container maxWidth="xl" sx={{ padding: '40px 0' }}>
+      <Paper sx={{ padding: '12px' }}>
         <div className={classes.categoryInfo}>
           <Typography variant="h6">
             Tổng danh mục hiện có: {catsData?.categoryMapperList.length}
@@ -68,7 +68,7 @@ const Categories = () => {
           </RouterLink>
         </div>
       </Paper>
-      <TableContainer component={Paper} sx={{ marginTop: "20px" }}>
+      <TableContainer component={Paper} sx={{ marginTop: '20px' }}>
         <Table sx={{ minWidth: 650 }} aria-label="product">
           <TableHead>
             <TableRow>
@@ -145,16 +145,16 @@ const Categories = () => {
                     <Stack direction="row" spacing={2}>
                       <Link
                         onClick={() => navigate(`/categories/edit/${cat?.id}`)}
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: 'pointer' }}
                       >
                         Chỉnh sửa
                       </Link>
 
                       <Link
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: 'pointer' }}
                         onClick={() => handleClickChangeCategoryStatus(cat?.id)}
                       >
-                        {cat?.status === STATUS_ACTIVE ? "Ẩn" : "Bỏ ẩn"}
+                        {cat?.status === STATUS_ACTIVE ? 'Ẩn' : 'Bỏ ẩn'}
                       </Link>
                     </Stack>
                   </TableCell>
