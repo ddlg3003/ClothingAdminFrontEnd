@@ -35,8 +35,7 @@ const Categories = () => {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    // setRowsPerPage(parseInt(event.target.value, LIMIT));
-    setRowsPerPage(parseInt(event.target.value));
+    setRowsPerPage(parseInt(event.target.value, LIMIT));
     setPage(0);
   };
 

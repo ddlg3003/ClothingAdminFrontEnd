@@ -26,6 +26,7 @@ import {
   ORDER_PAGING_LIMIT,
   ORDER_STATUS,
   COLOR_LIST,
+  LIMIT
 } from '../../utils/globalVariables';
 import CancelOrderDialog from './CancelOrderDialog';
 import Pagination from '../Pagination/Pagination';
@@ -36,7 +37,7 @@ import Tab from '@mui/material/Tab';
 
 const Orders = () => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(ORDER_PAGING_LIMIT);
+  const [rowsPerPage, setRowsPerPage] = useState(LIMIT);
 
   // tabs handling
   const [value, setValue] = useState('Active');
@@ -62,8 +63,7 @@ const Orders = () => {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    // setRowsPerPage(parseInt(event.target.value, ORDER_PAGING_LIMIT));
-    setRowsPerPage(parseInt(event.target.value));
+    setRowsPerPage(parseInt(event.target.value, LIMIT));
     setPage(0);
   };
 
