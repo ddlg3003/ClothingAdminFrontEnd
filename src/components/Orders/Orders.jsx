@@ -62,7 +62,8 @@ const Orders = () => {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, ORDER_PAGING_LIMIT));
+    // setRowsPerPage(parseInt(event.target.value, ORDER_PAGING_LIMIT));
+    setRowsPerPage(parseInt(event.target.value));
     setPage(0);
   };
 
@@ -120,6 +121,7 @@ const Orders = () => {
     data: ordersDataPagination,
     isFetching: isFetchingOrdersDataPagination,
   } = useGetAllOrdersQuery();
+
   const getOrderListLengthByStatus = (status) => {
     if (isFetchingOrdersDataPagination) {
       return 0;
