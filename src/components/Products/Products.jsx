@@ -36,7 +36,8 @@ const Products = () => {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, LIMIT));
+    // setRowsPerPage(parseInt(event.target.value, LIMIT));
+    setRowsPerPage(parseInt(event.target.value));
     setPage(0);
   };
 
