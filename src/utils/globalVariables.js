@@ -34,8 +34,6 @@ export const ORDER_STATUS = {
 
 export const LIMIT = 10;
 
-export const ORDER_PAGING_LIMIT = 5;
-
 export const COLOR_LIST = [
   {
     color: 'f1f1f1',

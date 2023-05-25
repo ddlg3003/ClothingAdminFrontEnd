@@ -8,9 +8,12 @@ const product = clothing.injectEndpoints({
     getChartStatistic: builder.query({
       query: () => `admin/statistic/chart`,
     }),
+    getSoldStatistic: builder.query({
+      query: () => `admin/statistic/product-chart`,
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetProfitByCriteriaQuery, useGetChartStatisticQuery } =
+export const { useGetProfitByCriteriaQuery, useGetChartStatisticQuery, useGetSoldStatisticQuery} =
   product;
