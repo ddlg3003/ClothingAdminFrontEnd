@@ -12,6 +12,7 @@ import {
   TableRow,
   Typography,
   Stack,
+  TextField,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import {
@@ -30,6 +31,7 @@ const Products = () => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(LIMIT);
+  const [query, setQuery] = useState('');
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -46,6 +48,7 @@ const Products = () => {
       pageNumber: page + 1,
       pageSize: rowsPerPage,
       cat: '',
+      keyword: query,
     });
   const { data: typesData, isFetching: isFetchingTypes } = useGetTypesQuery();
 
@@ -66,6 +69,12 @@ const Products = () => {
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      setQuery(event.target.value);
+    }
+  };
+
   return (
     <Container maxWidth="xl" sx={{ padding: '40px 0' }}>
       <Paper sx={{ padding: '12px' }}>
@@ -73,6 +82,13 @@ const Products = () => {
           <Typography variant="h6">
             Tổng sản phẩm hiện có: {productsData?.numberItem}
           </Typography>
+          <TextField
+            required
+            variant="standard"
+            placeholder="Tìm sản phẩm..."
+            sx={{ width: '24%' }}
+            onKeyPress={handleKeyPress}
+          />
           <RouterLink to="/products/add" className={classes.link}>
             <Button variant="contained" size="medium">
               <AddIcon />

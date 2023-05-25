@@ -6,8 +6,15 @@ const product = clothing.injectEndpoints({
       query: () => 'product/getAll',
     }),
     getProducts: builder.query({
-      query: ({ pageNumber, pageSize, cat }) =>
-        `product?pageNo=${pageNumber}&pageSize=${pageSize}&cat=${cat}`,
+      query: ({ pageNumber, pageSize, cat, keyword }) => {
+        let endpoint = `product?pageNo=${pageNumber}&pageSize=${pageSize}&cat=${cat}`;
+
+        if (keyword) {
+          endpoint += `&keyword=${keyword}`;
+        }
+
+        return endpoint;
+      },
       providesTags: ['Product'],
     }),
     getProduct: builder.query({
