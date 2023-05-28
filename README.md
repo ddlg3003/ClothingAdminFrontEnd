@@ -10,3 +10,5 @@ This is a graduate dissertation project of our team. The project is built with R
 npm i --legacy-peer-deps
 npm start
 ```
+## Hosting
+https://admin-adncloth.netlify.app
