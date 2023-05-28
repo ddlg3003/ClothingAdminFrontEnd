@@ -11,7 +11,18 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  // Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  // ResponsiveContainer,
+  // Label,
+} from 'recharts';
 import React, { useState } from 'react';
 import Chart from '../Chart/Chart';
 import InputLabel from '@mui/material/InputLabel';
@@ -21,8 +32,10 @@ import Link from '@mui/material/Link';
 import { REPORT_CRITERIA, URL_SIDEBAR } from '../../utils/globalVariables';
 import { useNavigate } from 'react-router-dom';
 import { useGetAllOrdersQuery } from '../../services/orderApis';
-import { useGetProfitByCriteriaQuery, useGetSoldStatisticQuery } from '../../services/reportApis';
-
+import {
+  useGetProfitByCriteriaQuery,
+  useGetSoldStatisticQuery,
+} from '../../services/reportApis';
 
 const data = [
   {
@@ -80,7 +93,7 @@ const Dashboard = () => {
   console.log(ordersData);
 
   const { data: soldData, isFetching: isFetchingSoldData } =
-  useGetSoldStatisticQuery();
+    useGetSoldStatisticQuery();
 
   console.log(soldData);
 
@@ -115,7 +128,6 @@ const Dashboard = () => {
                 height: 240,
               }}
             >
-              
               <Stack
                 direction="row"
                 justifyContent="flex-start"
@@ -158,39 +170,44 @@ const Dashboard = () => {
               </Typography> */}
             </Paper>
           </Grid>
-          {isFetchingSoldData ? (<></>) : (<Grid item xs ={12}>
-            <Paper
-              sx={{
-                p: 2,
-                display: 'flex',
-                flexDirection: 'column',
-                height: 450,
-                width: 1100,
-              }}
-            >
-              <Typography component="p" variant="body1" fontSize={20} mb={1}>
-                Số lượng sản phẩm đã bán
-              </Typography>
-              <BarChart
-                width={1000}
-                height={400}
-                data={soldData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
+          {isFetchingSoldData ? (
+            <></>
+          ) : (
+            <Grid item xs={12}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: 450,
+                  width: '100%',
                 }}
               >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name"></XAxis>
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="sold" fill="#82ca9d" />
-        </BarChart>
-            </Paper></Grid>)}
-          
+                <Typography component="p" variant="body1" fontSize={20} mb={1}>
+                  Số lượng sản phẩm đã bán
+                </Typography>
+                <BarChart
+                  width={1200}
+                  height={400}
+                  data={soldData}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="sold" fill="#82ca9d" />
+                </BarChart>
+              </Paper>
+            </Grid>
+          )}
+
           {/* Recent Orders */}
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
@@ -327,9 +344,8 @@ const Dashboard = () => {
               )}
             </Paper>
           </Grid>
-          
         </Grid>
-        
+
         <Typography
           mt={3}
           variant="body2"

@@ -1,7 +1,8 @@
 export const BLACK_LOGO =
   'https://res.cloudinary.com/dgyqhnavx/image/upload/v1670131428/samples/ecommerce/Clothing%20assets/Black_qvloqn.png';
 
-export const BASE_API_URL = 'http://localhost:8099';
+// export const BASE_API_URL = 'http://localhost:8099';
+export const BASE_API_URL = 'https://nda-clothing-web.herokuapp.com';
 
 export const URL_SIDEBAR = {
   home: '/',
