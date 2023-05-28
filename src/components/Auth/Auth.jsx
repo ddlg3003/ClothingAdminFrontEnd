@@ -86,7 +86,7 @@ const Auth = () => {
         setToastMessage('Bạn không được uỷ quyền để truy cập vào trang này');
       } else {
         dispatch(setUser(data));
-        window.location.href = 'http://localhost:4000';
+        window.location.href = 'https://admin-adncloth.netlify.app';
       }
     } else {
       setOpenToast(true);
